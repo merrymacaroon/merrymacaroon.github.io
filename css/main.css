@@ -12,6 +12,7 @@ header {
   height: 45px;
   width: 100%;
   padding: 10px;
+  z-index: 1;
   display: inline-block;
   vertical-align: middle;
   position: fixed;
@@ -37,8 +38,9 @@ header ul {
 }
 
 .masthead {
+
   width: 100%;
-  height: 80vh;
+  height: 60vh;
   background-image: url("../images/macaroons.jpg");
   background-size: cover;
   animation-name: mastheaddrift;
@@ -69,7 +71,7 @@ header ul {
 } */
 
 article{
-  width: 80%;
+  width: 90%;
   /* text-align: center; */
   margin: 10px auto 10px auto;
 }
@@ -90,10 +92,11 @@ section::after {
   content: "";
   background-color: #c0ffc0;
   display: block;
-  width: 120px;
+  width: 40%;
   height: 30px;
   transform: skewX(7deg) rotate(2deg);
-
+  opacity: 0.8;
+  box-shadow: 0.5px 0.5px 1px grey;
   margin: 0px auto -7px auto;
 }
 
@@ -108,10 +111,34 @@ section::after {
 .picturecaption {
   margin: -35px 10px 30px 10px;
   font-family: cursive;
+  font-size: 0.6em;
 }
 
-@media (min-width: 500px) {
-  .headertext {
-    font-size: 3em;
+@media (min-width: 600px) {
+
+  article{
+    width: 80%;
   }
+  .pictureframe::before {
+      height: 30px;
+  }
+
+  .pictureframe img {
+      border-width: 15px 15px 50px 15px;
+  }
+
+  .picturecaption {
+    margin: -40px 10px 30px 10px;
+    font-size: 0.7em;
+  }
+}
+
+@media (min-width: 1000px) {
+  .masthead {
+    margin-top: 45px;
+  }
+  article{
+    width: 60%;
+  }
+
 }
