@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans&display=swap");
+
+* {
+  font-family: 'Noto Sans', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  opacity: 0.8;
+  height: 45px;
+  width: 100%;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: white;
+}
+
+header img{
+  height: 100%;
+  vertical-align: middle;
+}
+
+header ul {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+@keyframes mastheaddrift {
+  from {background-position: 35%;}
+  to {background-position: 50%;}
+}
+
+.masthead {
+  width: 100%;
+  height: 80vh;
+  background-image: url("../images/macaroons.jpg");
+  background-size: cover;
+  animation-name: mastheaddrift;
+  animation-duration: 20s;
+  animation-fill-mode: both;
+  animation-delay: 5s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+/* @keyframes headertextjump {
+  from {bottom: 10px;}
+  to {bottom: 20px;}
+}
+
+.mastheadtext {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 2em;
+  animation-name: headertextjump;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-delay: 1s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+} */
+
+article{
+  width: 80%;
+  /* text-align: center; */
+  margin: 10px auto 10px auto;
+}
+
+section::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.pictureframe {
+  width: 40%;
+  float: right;
+  transform: rotate(1deg);
+}
+
+.pictureframe::before {
+  content: "";
+  background-color: #c0ffc0;
+  display: block;
+  width: 120px;
+  height: 30px;
+  transform: skewX(7deg) rotate(2deg);
+
+  margin: 0px auto -7px auto;
+}
+
+.pictureframe img{
+  width: 100%;
+  border-width: 10px 10px 40px 10px;
+  border-style: solid;
+  border-color: white;
+  box-shadow: 5px 5px 10px grey;
+}
+
+.picturecaption {
+  margin: -35px 10px 30px 10px;
+  font-family: cursive;
+}
+
+@media (min-width: 500px) {
+  .headertext {
+    font-size: 3em;
+  }
+}
