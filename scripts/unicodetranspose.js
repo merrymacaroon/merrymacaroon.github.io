@@ -92,5 +92,5 @@ $(document).ready(function() {
    // $("#inputText").height($("#boldItalicText").height());
 
    // input textarea gets focus
-   $("#inputText").focus();
+   //$("#inputText").focus();
 });
