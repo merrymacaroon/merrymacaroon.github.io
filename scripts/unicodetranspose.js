@@ -36,6 +36,13 @@ $(document).ready(function() {
       // bold italic sans serif
       offset = 0x1D63C- 0x47;
     }
+    else if (format == "C")
+    {
+      // offset for cursive bold unicode
+
+      // bold cursive
+      offset = 0x1D4D0- 0x47;
+    }
 
     // return appropriate uncode string
     if (inputText.charAt(0) >= "A" && inputText.charAt(0) <= "Z")
@@ -69,6 +76,7 @@ $(document).ready(function() {
     $("#italicText").text("");
     $("#boldText").text("");
     $("#boldItalicText").text("");
+    $("#cursiveText").text("");
 
     // Transpose italic
     $("#italicText").append(transposeStringToUnicode($("#inputText").val(),"I"));
@@ -76,11 +84,14 @@ $(document).ready(function() {
     $("#boldText").append(transposeStringToUnicode($("#inputText").val(),"B"));
     // Transpose bold italic
     $("#boldItalicText").append(transposeStringToUnicode($("#inputText").val(),"X"));
+    // Transpose bold cursive
+    $("#cursiveText").append(transposeStringToUnicode($("#inputText").val(),"C"));
 
     if ($("#inputText").val().length == 0) {
       $("#italicText").html("&nbsp;");
       $("#boldText").html("&nbsp;");
       $("#boldItalicText").html("&nbsp;");
+      $("#cursiveText").html("&nbsp;");
     }
     // grow input textarea when needed
     $("#inputText").height($("#boldItalicText").height());
@@ -91,6 +102,9 @@ $(document).ready(function() {
    $("#inputText").keyup(transpose);
    // $("#inputText").height($("#boldItalicText").height());
 
-   // input textarea gets focus
-   //$("#inputText").focus();
+  // hack to match unicode font
+  $("#italicFont").html(transposeStringToUnicode("Italic","I"));
+  $("#boldFont").html(transposeStringToUnicode("Bold","B"));
+  $("#boldItalicFont").html(transposeStringToUnicode("Bold Italic","X"));
+  $("#cursiveFont").html(transposeStringToUnicode("Cursive","C"));
 });
