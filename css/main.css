@@ -32,8 +32,34 @@ header ul {
   list-style-type: none;
 }
 
+footer {
+  /* height: 45px; */
+  width: 100%;
+  padding: 10px;
+
+}
+
+footer div {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+footer img{
+  width: 30px;
+  margin: 15px;
+}
+
 #rightnav {
+  display: flex;
   float: right;
+}
+
+#rightnav li {
+  margin: 0px 10px 0px 10px;
 }
 
 
@@ -60,7 +86,7 @@ header ul {
 article{
   width: 90%;
   margin: 10px auto 10px auto;
-  padding: 10px;
+  padding: 50px 10px 10px 10px;
   background-color: #fffff0;
 
   border-style: solid;
@@ -73,6 +99,13 @@ section {
   margin: 10px;
 }
 
+/* prevents a section from collapsing around floated elements */
+section::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
 .panel {
   margin: 5px;
   padding: 10px;
@@ -82,6 +115,7 @@ section {
   border-color: darkgrey;
   box-shadow: 2px 2px 5px grey;
 }
+
 
 #inputText {
   margin: 5px 0px 5px 0px ;
@@ -107,17 +141,12 @@ section {
   font-size: 1.2em;
 }
 
-/* prevents a section from collapsing around floated elements */
-section::after {
-  content: "";
-  clear: both;
-  display: table;
-}
+
 
 .pictureframe {
-  width: 40%;
-  float: right;
+  /* float: right; */
   transform: rotate(1deg);
+  cursor: pointer;
 }
 
 .pictureframe::before {
@@ -146,6 +175,18 @@ section::after {
   font-size: 0.6em;
 }
 
+.flexContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.flexContainer .pictureframe {
+  width: 45%;
+  margin-left: 10px;
+}
+
 @media (min-width: 600px) {
 
   article{
@@ -163,14 +204,20 @@ section::after {
     margin: -40px 10px 30px 10px;
     font-size: 0.7em;
   }
+  .flexContainer .pictureframe {
+    width: 30%;
+  }
 }
 
 @media (min-width: 1000px) {
   .masthead {
     margin-top: 45px;
+    height: 70vh;
   }
   article{
     width: 60%;
   }
-
+  .flexContainer .pictureframe {
+    width: 22%;
+  }
 }
