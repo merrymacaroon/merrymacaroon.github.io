@@ -182,6 +182,13 @@ section::after {
   flex-direction: row;
 }
 
+.noWrap {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  flex-direction: row;
+}
+
 .flexContainer .pictureframe {
   width: 45%;
   margin-left: 10px;
