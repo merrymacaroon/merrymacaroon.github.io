@@ -103,8 +103,8 @@ $(document).ready(function() {
    // $("#inputText").height($("#boldItalicText").height());
 
   // hack to match unicode font
-  $("#italicFont").html(transposeStringToUnicode("Italic","I"));
-  $("#boldFont").html(transposeStringToUnicode("Bold","B"));
-  $("#boldItalicFont").html(transposeStringToUnicode("Bold Italic","X"));
-  $("#cursiveFont").html(transposeStringToUnicode("Cursive","C"));
+  // $("#italicFont").html(transposeStringToUnicode("Italic","I"));
+  // $("#boldFont").html(transposeStringToUnicode("Bold","B"));
+  // $("#boldItalicFont").html(transposeStringToUnicode("Bold Italic","X"));
+  // $("#cursiveFont").html(transposeStringToUnicode("Cursive","C"));
 });
