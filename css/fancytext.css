@@ -1,6 +1,7 @@
 #inputPanel {
   margin-top: 10px;
 }
+
 #inputText {
   margin: 5px 0px 5px 0px ;
   padding: 1px 5px 1px 5px;
@@ -24,13 +25,14 @@
   background-color: white;
   font-size: 1.2em;
 }
+
 #cursiveFont {
   font-family: cursive;
 }
 
+/* PC layout */
 @media (min-width: 1000px) {
   .panel {
     width: 45%;
   }
-
 }

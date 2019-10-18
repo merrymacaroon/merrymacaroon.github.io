@@ -18,6 +18,7 @@
   animation-timing-function: ease-in-out;
 }
 
+/* Tablet layout */
 @media (min-width: 600px) {
   .panel {
     width: 45%;
@@ -27,11 +28,12 @@
     order: 1;
     }
 }
+
+/* PC layout */
 @media (min-width: 1000px) {
   .masthead {
     height: 70vh;
   }
-
   article {
     width: 31%;
   }

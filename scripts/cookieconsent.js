@@ -1,4 +1,4 @@
-// no jquery
+// no jquery yet
 
 function popCookieNotice(){
 

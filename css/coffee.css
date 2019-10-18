@@ -1,26 +1,29 @@
+/* black background for zoomed in images */
 .curtain {
   position: fixed;
   width: 100%;
   height: 100%;
+  z-index: 1;
   background-color: black;
   opacity: 0.9;
-  z-index: 1;
   visibility: hidden;
 }
 
+/* default mobile layout is 2-up */
 .pictureframe {
-  width: 45%;
+  width: 48%;
 }
 
+/* tablet layout */
 @media (min-width: 600px) {
   .pictureframe {
-    width: 30%;
+    width: 31%;
   }
-
 }
+
+/* PC layout */
 @media (min-width: 1000px) {
   .pictureframe {
     width: 24%;
   }
-
 }

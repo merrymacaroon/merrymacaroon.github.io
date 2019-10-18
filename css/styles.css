@@ -7,6 +7,7 @@
   padding: 0;
 }
 
+/* Navbar */
 header {
   opacity: 0.95;
   height: 45px;
@@ -56,6 +57,7 @@ footer img{
   width: 30px;
   margin: 15px;
 }
+
 article{
   width: 90%;
   margin: 10px auto 10px auto;
@@ -89,6 +91,7 @@ section {
   cursor: pointer;
 }
 
+/* tape effect */
 .pictureframe::before {
   content: "";
   background-color: #c0ffc0;

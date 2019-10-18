@@ -1,16 +1,14 @@
 $(document).ready(function() {
 
+  // randomize order and tilt of pictureframes
   $(".gallery .pictureframe").each(function(){
     $(this).css("order",Math.floor((Math.random() * 100)));
     $(this).css("transform","rotate(" + ((Math.random() * 2) - 1) + "deg)");
-
   });
 
   $(".gallery .pictureframe").click(function(){
-
     if ($(this).attr("zoomed") == "1") {
       $(this).attr("zoomed","0");
-      $(".curtain").css("visibility","hidden");
       $(this).animate({
         width:$(this).attr("tempWidth")+"%",
       },500,
@@ -18,6 +16,7 @@ $(document).ready(function() {
         $(this).css({"position":"static",
           "z-index":"0"
         });
+        $(".curtain").css("visibility","hidden");
       });
     } else {
 
@@ -35,6 +34,7 @@ $(document).ready(function() {
         "z-index":"2"
       });
 
+      // calculate required zoom based on aspect ratio
       var elAspect = $(this).width()/$(this).height();
       var screenAspect = $(window).width()/$(window).height();
       var targetWidth;

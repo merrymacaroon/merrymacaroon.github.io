@@ -105,6 +105,4 @@ $(document).ready(function() {
     gtag('event','select_content',{'content_id':$(this).attr("id")});
   });
 
-
-
 });
