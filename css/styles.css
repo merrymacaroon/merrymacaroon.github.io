@@ -39,10 +39,8 @@ header ul {
 }
 
 footer {
-  /* height: 45px; */
   width: 100%;
   padding: 10px;
-
 }
 
 footer div {
@@ -73,13 +71,6 @@ article{
 section {
   margin: 10px;
 }
-
-/* prevents a section from collapsing around floated elements */
-/* section::after {
-  content: "";
-  clear: both;
-  display: table;
-} */
 
 .panel {
   margin: 5px;
@@ -119,70 +110,14 @@ section {
 }
 
 .picturecaption {
-  margin: -35px 10px 30px 10px;
+  margin: -45px 10px 30px 10px;
   font-family: cursive;
-  /* font-size: 0.6em; */
+  font-size: 0.8em;
 }
 
 .flexContainer {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
   justify-content: space-around;
   flex-direction: row;
-}
-
-/* .flexContainer .pictureframe {
-  width: 45%;
-  margin-left: 10px;
-} */
-
-@media (min-width: 600px) {
-
-  /* .panel {
-    width: 45%;
-  } */
-
-
-  /* article{
-    width: 80%;
-  }
-  .pictureframe::before {
-      height: 30px;
-  }
-
-  .pictureframe {
-    width: 50%;
-  }
-
-  .pictureframe img {
-      border-width: 15px 15px 50px 15px;
-  }
-
-  .picturecaption {
-    margin: -40px 10px 30px 10px;
-    font-size: 0.7em;
-  }
-  .flexContainer .pictureframe {
-    width: 30%;
-  } */
-}
-
-@media (min-width: 1000px) {
-
-  /* .panel {
-    width: 45%;
-  } */
-
-  /* article{
-    width: 60%;
-  }
-
-  .pictureframe {
-    width: 100%;
-  }
-
-  .flexContainer .pictureframe {
-    width: 22%;
-  } */
 }

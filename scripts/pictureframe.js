@@ -10,6 +10,7 @@ $(document).ready(function() {
 
     if ($(this).attr("zoomed") == "1") {
       $(this).attr("zoomed","0");
+      $(".curtain").css("visibility","hidden");
       $(this).animate({
         width:$(this).attr("tempWidth")+"%",
       },500,
@@ -20,13 +21,18 @@ $(document).ready(function() {
       });
     } else {
 
+      // Google Analytics Event
+      gtag('event','view_item',{'items':$(this).find("img").attr("alt")});
+
       $(this).attr("zoomed","1");
       $(this).attr("tempWidth",
         Math.floor($(this).width()/$(this).parent().width()*100));
 
+      $(".curtain").css("visibility","visible");
+
       $(this).css({"position":"fixed",
         "top":"10px",
-        "z-index":"1"
+        "z-index":"2"
       });
 
       var elAspect = $(this).width()/$(this).height();

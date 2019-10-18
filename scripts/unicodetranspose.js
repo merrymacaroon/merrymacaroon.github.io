@@ -98,13 +98,13 @@ $(document).ready(function() {
   }
 
   // Transpose event handlers
-  // $("#transposeButton").click(transpose);
-   $("#inputText").keyup(transpose);
-   // $("#inputText").height($("#boldItalicText").height());
+  $("#inputText").keyup(transpose);
 
-  // hack to match unicode font
-  // $("#italicFont").html(transposeStringToUnicode("Italic","I"));
-  // $("#boldFont").html(transposeStringToUnicode("Bold","B"));
-  // $("#boldItalicFont").html(transposeStringToUnicode("Bold Italic","X"));
-  // $("#cursiveFont").html(transposeStringToUnicode("Cursive","C"));
+  // Google Analytics Events
+  $(".outputText").click(function(){
+    gtag('event','select_content',{'content_id':$(this).attr("id")});
+  });
+
+
+
 });

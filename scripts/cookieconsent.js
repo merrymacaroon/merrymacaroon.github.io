@@ -3,7 +3,7 @@
 function popCookieNotice(){
 
   var content = "We use cookies to analyse site traffic to provide you a \
-better experience. Click 𝗢𝗞 to allow cookies 😀 or click 𝗖𝗮𝗻𝗰𝗲𝗹 to \
+better experience. Click OK to allow cookies 😀 or click Cancel to \
 continue without cookies 😢.";
 
   var result = confirm(content);
