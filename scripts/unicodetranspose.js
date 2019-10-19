@@ -102,7 +102,11 @@ $(document).ready(function() {
 
   // Google Analytics Events
   $(".outputText").click(function(){
-    gtag('event','select_content',{'content_id':$(this).attr("id")});
+    gtag('event','click',{
+      'event_cataegory':'translate_input',
+      'event_label':$(this).attr("id")
+    });
   });
+
 
 });

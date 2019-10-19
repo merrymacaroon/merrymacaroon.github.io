@@ -29,7 +29,10 @@ $(document).ready(function() {
     } else {
 
       // Google Analytics Event
-      gtag('event','view_item',{'items':$(this).find("img").attr("alt")});
+      gtag('event','click',{
+        'event_cataegory':'gallery_view',
+        'event_label':$(this).find("img").attr("alt")
+      });
 
       // switch to larget image
       $(this).find("img").attr("src", rootFilename + "_2000px.jpg");
