@@ -4,26 +4,27 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-  background-color: black;
+  background-color: white;
   opacity: 0.9;
   visibility: hidden;
 }
 
 /* default mobile layout is 2-up */
-.pictureframe {
+.gallery .pictureframe {
   width: 48%;
+  cursor: pointer;
 }
 
 /* tablet layout */
 @media (min-width: 600px) {
-  .pictureframe {
+  .gallery .pictureframe {
     width: 31%;
   }
 }
 
 /* PC layout */
 @media (min-width: 1000px) {
-  .pictureframe {
+  .gallery .pictureframe {
     width: 24%;
   }
 }

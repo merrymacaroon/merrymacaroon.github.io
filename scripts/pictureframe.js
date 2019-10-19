@@ -7,7 +7,15 @@ $(document).ready(function() {
   });
 
   $(".gallery .pictureframe").click(function(){
+
+    // get image name before resolution specifyer
+    var filename = $(this).find("img").attr("src");
+    var i = filename.search("_");
+    var rootFilename = filename.slice(0,i);
+
     if ($(this).attr("zoomed") == "1") {
+      // switch to smaller image
+      $(this).find("img").attr("src", rootFilename + "_500px.jpg");
       $(this).attr("zoomed","0");
       $(this).animate({
         width:$(this).attr("tempWidth")+"%",
@@ -22,6 +30,9 @@ $(document).ready(function() {
 
       // Google Analytics Event
       gtag('event','view_item',{'items':$(this).find("img").attr("alt")});
+
+      // switch to larget image
+      $(this).find("img").attr("src", rootFilename + "_2000px.jpg");
 
       $(this).attr("zoomed","1");
       $(this).attr("tempWidth",

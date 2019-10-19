@@ -18,6 +18,13 @@
   animation-timing-function: ease-in-out;
 }
 
+#title {
+  position: absolute;
+  top: 20px;
+  right: 20%;
+  font-size: 2em;
+}
+
 /* Tablet layout */
 @media (min-width: 600px) {
   .panel {

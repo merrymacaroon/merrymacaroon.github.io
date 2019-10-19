@@ -2,9 +2,9 @@
 
 function popCookieNotice(){
 
-  var content = "We use cookies to analyse site traffic to provide you a \
-better experience. Click OK to allow cookies 😀 or click Cancel to \
-continue without cookies 😢.";
+  var content = "We use cookies to analyse site traffic and user behaviour \
+to provide you a better experience. Click OK 😀 to allow cookies or click \
+Cancel 😢 to continue without cookies.";
 
   var result = confirm(content);
   if (result) {
