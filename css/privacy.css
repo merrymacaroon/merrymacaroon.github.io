@@ -1,0 +1,18 @@
+#cookieConsent {
+  position: fixed;
+  width: 80%;
+  top: 20px;
+  left:10%;
+  z-index: 2;
+  margin: auto;
+  padding: 20px;
+}
+
+#cookieConsent .panel {
+  margin: auto;
+  padding: 20px;
+}
+
+#cookieConsent ul {
+  margin: 5px 0px 20px 20px;
+}
