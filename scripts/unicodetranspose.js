@@ -101,7 +101,8 @@ $(document).ready(function() {
   $("#inputText").keyup(transpose);
   $("#inputText").click(function(){
     gtag('event','click',{
-      'event_cataegory':'translate_input'
+      'event_cataegory':'translate_input',
+      'event_label':$(this).attr("id")
     });
   });
 
