@@ -1,8 +1,10 @@
 $(document).ready(function() {
 
-  // randomize order and tilt of pictureframes
+  var colours = ["#ffe0e0","#d0ffd0","#e8e8ff"];
+  // randomize colortape, order and tilt of pictureframes
   $(".pictureframe").each(function(){
     $(this).css("transform","rotate(" + ((Math.random() * 2) - 1) + "deg)");
+    $(this).css("--color",colours[Math.floor((Math.random() * 3))]);
   });
   $(".gallery .pictureframe").each(function(){
     $(this).css("order",Math.floor((Math.random() * 100)));

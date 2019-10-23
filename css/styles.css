@@ -97,7 +97,7 @@ ul {
 /* tape effect */
 .pictureframe::before {
   content: "";
-  background-color: #c0ffc0;
+  background-color: var(--color, #d0ffd0);
   display: block;
   width: 40%;
   height: 30px;
