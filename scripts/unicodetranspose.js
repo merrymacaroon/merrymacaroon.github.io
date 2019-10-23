@@ -99,11 +99,17 @@ $(document).ready(function() {
 
   // Transpose event handlers
   $("#inputText").keyup(transpose);
+  $("#inputText").click(function(){
+    gtag('event','click',{
+      'event_cataegory':'translate_input'
+    });
+  });
+
 
   // Google Analytics Events
   $(".outputText").click(function(){
     gtag('event','click',{
-      'event_cataegory':'translate_input',
+      'event_cataegory':'translate_output',
       'event_label':$(this).attr("id")
     });
   });
