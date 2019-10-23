@@ -1,9 +1,11 @@
 $(document).ready(function() {
 
   // randomize order and tilt of pictureframes
+  $(".pictureframe").each(function(){
+    $(this).css("transform","rotate(" + ((Math.random() * 2) - 1) + "deg)");
+  });
   $(".gallery .pictureframe").each(function(){
     $(this).css("order",Math.floor((Math.random() * 100)));
-    $(this).css("transform","rotate(" + ((Math.random() * 2) - 1) + "deg)");
   });
 
   $(".gallery .pictureframe").click(function(){

@@ -74,6 +74,10 @@ section {
   margin: 10px;
 }
 
+ul {
+  margin: 0.5em 0px 1em 1.5em;
+}
+
 .panel {
   margin: 5px 10px 5px 5px;
   padding: 20px 10px 10px 10px;
