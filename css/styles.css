@@ -37,6 +37,7 @@ header ul {
   display: inline-block;
   vertical-align: middle;
   list-style-type: none;
+  margin: 0px 0px 0px 5px;
 }
 
 footer {
@@ -76,6 +77,10 @@ section {
 
 ul {
   margin: 0.5em 0px 1em 1.5em;
+}
+
+h1 {
+  margin-bottom: 0.5em;
 }
 
 .panel {

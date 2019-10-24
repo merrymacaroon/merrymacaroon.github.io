@@ -21,8 +21,13 @@
 #title {
   position: absolute;
   top: 20px;
-  right: 20%;
+  right: 10%;
   font-size: 2em;
+  text-shadow: 3px 3px 2px grey;
+}
+
+.cursiveFont {
+  font-family: cursive;
 }
 
 /* Tablet layout */
