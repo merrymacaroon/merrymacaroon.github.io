@@ -3,7 +3,8 @@ $(document).ready(function() {
   var colours = ["#ffe0e0","#d0ffd0","#e8e8ff"];
   // randomize colortape, order and tilt of pictureframes
   $(".pictureframe").each(function(){
-    $(this).css("transform","rotate(" + ((Math.random() * 2) - 1) + "deg)");
+    $(this).css("transform","rotate(" + ((Math.random() * 2) - 1) +
+        "deg) translateY(" + (Math.floor(Math.random() * 20) - 10) + "px)");
     $(this).css("--color",colours[Math.floor((Math.random() * 3))]);
   });
   $(".gallery .pictureframe").each(function(){
@@ -48,7 +49,7 @@ $(document).ready(function() {
       $(".curtain").css("visibility","visible");
 
       $(this).css({"position":"fixed",
-        "top":"10px",
+        "top":"20px",
         "z-index":"2"
       });
 
