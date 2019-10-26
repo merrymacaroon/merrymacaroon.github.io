@@ -108,12 +108,11 @@ $(document).ready(function() {
 
 
   // Google Analytics Events
-  $(".outputText").click(function(){
+  $(".outputText").on("copy",function(){
     gtag('event','click',{
       'event_cataegory':'translate_output',
       'event_label':$(this).attr("id")
     });
   });
-
 
 });
