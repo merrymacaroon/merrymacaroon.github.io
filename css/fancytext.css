@@ -11,6 +11,7 @@
   border-color: darkgrey;
   background-color: white;
   font-size: 1em;
+  overflow: hidden;
 }
 
 .outputText {
