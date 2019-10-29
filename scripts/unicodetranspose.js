@@ -12,11 +12,8 @@ $(document).ready(function() {
     dictionary = {};
 
     constructor(unicodeInitialization) {
-      if (unicodeInitialization.offset == 0) {
-        dictionary = unicodeInitialization.dictionary;
-      } else {
-        this.offset = unicodeInitialization.offset;
-      }
+      this.dictionary = unicodeInitialization.dictionary;
+      this.offset = unicodeInitialization.offset;
       this.displayName = unicodeInitialization.displayName;
       this.outputTextID = unicodeInitialization.outputTextID;
     }
@@ -26,16 +23,16 @@ $(document).ready(function() {
     }
 
     translateCharToUnicode(inputChar) {
-      if (this.offset > 0) {
+
+      if (inputChar in this.dictionary) {
+        return this.dictionary[inputChar];
+      } else {
         // use offset
         if (inputChar.charAt(0) >= "A" && inputChar.charAt(0) <= "Z")
           return (inputChar.charCodeAt(0)+this.offset + 6).toString(16);
         else if (inputChar.charAt(0) >= "a" && inputChar.charAt(0) <= "z")
           return (inputChar.charCodeAt(0)+this.offset).toString(16);
         else return inputChar.charAt(0); // fallthrough: return inputText
-      } else {
-        // use dictionary for non-contiguous ranges
-        return inputChar.charAt(0); // fallthrough: return inputText
       }
     }
 
@@ -83,27 +80,56 @@ $(document).ready(function() {
       offset : (0x1D608 - 0x47),
       displayName : "<h1 id='italicFont'><i>Italic</i></h1><p id='italicText' class='outputText'>&nbsp;</p>",
       outputTextID : "#italicText",
+      dictionary : {}
     };
     var boldUnicodeInitialization = {
       offset : (0x1D5D4 - 0x47),
       displayName : "<h1 id='boldFont'><b>Bold</b></h1><p id='boldText' class='outputText'>&nbsp;</p>",
       outputTextID : "#boldText",
+      dictionary : {}
     };
     var boldItalicUnicodeInitialization = {
       offset : (0x1D63C - 0x47),
       displayName : "<h1 id='boldItalicFont'><i><b>Bold Italic</b></i></h1><p id='boldItalicText' class='outputText'>&nbsp;</p>",
       outputTextID : "#boldItalicText",
+      dictionary : {}
     };
     var cursiveUnicodeInitialization = {
       offset : (0x1D4D0 - 0x47),
       displayName : "<h1 id='cursiveFont'>Cursive</h1><p id='cursiveText' class='outputText'>&nbsp;</p>",
       outputTextID : "#cursiveText",
+      dictionary : {}
+    };
+    var doublestruckUnicodeInitialization = {
+      offset : (0x1D538 - 0x47),
+      displayName : "<h1 id='doublestruckFont'>Doublestruck</h1><p id='doublestruckText' class='outputText'>&nbsp;</p>",
+      outputTextID : "#doublestruckText",
+      dictionary : {
+        "C" : "2102",
+        "H" : "210D",
+        "N" : "2115",
+        "P" : "2119",
+        "Q" : "211A",
+        "R" : "211D",
+        "Z" : "2124",
+        "0" : "1D7D8",
+        "1" : "1D7D9",
+        "2" : "1D7DA",
+        "3" : "1D7DB",
+        "4" : "1D7DC",
+        "5" : "1D7DD",
+        "6" : "1D7DE",
+        "7" : "1D7DF",
+        "8" : "1D7E0",
+        "9" : "1D7E1",
+      }
     };
 
     translatorList.push(new asciiToUnicodeTranslator(italicUnicodeInitialization));
     translatorList.push(new asciiToUnicodeTranslator(boldUnicodeInitialization));
     translatorList.push(new asciiToUnicodeTranslator(boldItalicUnicodeInitialization));
     translatorList.push(new asciiToUnicodeTranslator(cursiveUnicodeInitialization));
+    translatorList.push(new asciiToUnicodeTranslator(doublestruckUnicodeInitialization));
 
     // write HTML to create thwir respective output fields
     translatorList.forEach(function(translator, index, array){
