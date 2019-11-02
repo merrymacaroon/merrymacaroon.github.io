@@ -34,37 +34,36 @@
     </header>
 
     <article>
+      <section id="chart" class="panel">
+        <h1B>Brew Control Chart</h1>
+        <div class="canvasContainer">
+          <canvas id="canvas"></canvas>
+        </div>
+      </section>
 
       <section id="brewPlan" class="panel">
         <h1>Plan (Target)</h1>
         <section class="flexContainer">
           <div class="parameter" id="TDS">
-            <span>TDS(%):</span><input type="number" name="TDS" value="15">
+            <span>TDS (%)</span><input type="number" name="TDS" value="15">
           </div>
           <div class="parameter" id="extraction">
-            <span>Extr(%):</span><input type="number" name="extraction" value="15">
+            <span>Extr (%)</span><input type="number" name="extraction" value="15">
           </div>
           <div class="parameter" id="coffeeDose">
-            <span>CoffeeDose(g):</span><input type="number" name="coffeeDose" value="15">
+            <span>Coffee Dose (g)</span><input type="number" name="coffeeDose" value="15">
           </div>
           <div class="parameter" id="brewWater">
-            <span>BrewWater(g):</span><input type="number" name="brewWater" value="255">
+            <span>Brew Water (g)</span><input type="number" name="brewWater" value="255">
           </div>
           <div class="parameter" id="LRR">
-            <span>LRR:</span><input type="number" name="LRR" value="2.1">
+            <span>LRR</span><input type="number" name="LRR" value="2.1">
           </div>
           <div class="parameter" id="bev">
-            <span>BevWt(g):</span><input type="number" name="bev" readonly>
+            <span>BevWt (g)</span><input type="number" name="bev" readonly>
           </div>
 
         </section>
-
-      </section>
-      <section id="chart" class="panel">
-        <h1>Chart</h1>
-        <div class="canvasContainer">
-          <canvas id="canvas"></canvas>
-        </div>
       </section>
 
     </article>
