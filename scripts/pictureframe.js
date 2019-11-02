@@ -1,3 +1,5 @@
+// Copyright © 2019 merrymacaroon.com All Rights Reserved.
+
 $(document).ready(function() {
 
   var colours = ["#ffe0e0","#d0ffd0","#e8e8ff"];

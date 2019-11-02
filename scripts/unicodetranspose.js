@@ -1,3 +1,5 @@
+// Copyright © 2019 merrymacaroon.com All Rights Reserved.
+
 $(document).ready(function() {
 
   // array to hold all translators
