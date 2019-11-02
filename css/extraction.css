@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+.canvasContainer {
+  height: 0;
+  padding-top: 100%;
+  position: relative;
+}
+
+#canvas {
+  width: 100%;
+  height:100%;
+  border-style: solid;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.parameter {
+  width: 40%;
+}
+
+#brewPlan .flexContainer {
+  /* flex-direction: column; */
+}
+
+#TDS {
+  order: 0;
+}
+#brewWater {
+  order: 1;
+}
+#extraction {
+  order: 2;
+}
+#LRR {
+  order: 3;
+}
+#coffeeDose {
+  order: 4;
+}
+#bev {
+  order: 5;
+}

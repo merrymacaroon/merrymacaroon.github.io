@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148378003-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-148378003-1', {
+        'anonymize_ip': true
+      });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="scripts/extraction.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/extraction.css">
+    <link rel="icon" href="favicon.ico">
+    <title>Coffee Extraction</title>
+  </head>
+  <body>
+    <header>
+      <a href="index.html"><img src="images/logo200x200.jpg" alt="logo"></a>
+      <ul id="leftnav">
+        <li><a href="index.html">Merry Macaroon</a></li>
+      </ul>
+      <ul id="rightnav">
+        <li><a href="fancytext.html">Fancy Text Styles</a></li>
+        <li><a href="coffee.html">Coffee Stuff</a></li>
+      </ul>
+    </header>
+
+    <article>
+
+      <section id="brewPlan" class="panel">
+        <h1>Plan (Target)</h1>
+        <section class="flexContainer">
+          <div class="parameter" id="TDS">
+            <span>TDS (%) :</span><input type="number" name="TDS" value="15">
+          </div>
+          <div class="parameter" id="extraction">
+            <span>Extraction (%) :</span><input type="number" name="extraction" value="15">
+          </div>
+          <div class="parameter" id="coffeeDose">
+            <span>Coffee Dose (g) :</span><input type="number" name="coffeeDose" value="15">
+          </div>
+          <div class="parameter" id="brewWater">
+            <span>Brew Water (g) :</span><input type="number" name="brewWater" value="255">
+          </div>
+          <div class="parameter" id="LRR">
+            <span>LRR :</span><input type="number" name="LRR" value="2.1">
+          </div>
+          <div class="parameter" id="bev">
+            <span>Bev Weight (g) :</span><input type="number" name="bev" readonly>
+          </div>
+
+        </section>
+
+      </section>
+      <section id="chart" class="panel">
+        <h1>Chart</h1>
+        <div class="canvasContainer">
+          <canvas id="canvas"></canvas>
+        </div>
+      </section>
+
+    </article>
+
+    <footer>
+      <div id="contact">
+        <a href="https://www.instagram.com/merrymacaroon/" target="_blank">
+          <img src="images/instagram_glyph-logo_May2016.png" alt="instagram logo">
+        </a>
+        <a href="https://www.instagram.com/merrymacaroon/" target="_blank">
+          Follow us on instagram
+        </a>
+      </div>
+      <div class="flexContainer">
+        <div id="copyright">
+          Copyright © 2019 merrymacaroon.com All Rights Reserved.
+        </div>
+        <div id="privacy">
+          <a href="privacy.html" target="_blank">Privacy Statement</a>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>

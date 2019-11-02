@@ -88,6 +88,13 @@ p {
     margin-top: 0.5em;
 }
 
+input {
+  border-style: solid;
+  border-color: grey;
+  padding-left: 0.5em;
+  margin-bottom: 15px;
+}
+
 .panel {
   margin: 10px 10px 20px 5px;
   padding: 20px 10px 10px 10px;
