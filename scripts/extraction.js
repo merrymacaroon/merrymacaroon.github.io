@@ -12,12 +12,11 @@ $(document).ready(function(){
       this.canvasId = initializers.canvasId;
 
       this.ctx = $(this.canvasId)[0].getContext("2d");
-      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-      this.canvasHeight = $(this.canvasId).height();
+      this.canvasHeight = Math.round($(this.canvasId).height());
       $(this.canvasId).attr("height",this.canvasHeight);
 
-      this.canvasWidth = $(this.canvasId).width();
+      this.canvasWidth = Math.round($(this.canvasId).width());
       $(this.canvasId).attr("width",this.canvasWidth);
     }
 
@@ -55,18 +54,28 @@ $(document).ready(function(){
       this.ctx.fillStyle = "#000000";
       this.ctx.lineWidth = 1;
 
-
+      var i = 0;
       for (y = this.windowStart.y; y < this.windowEnd.y; y += intervalY) {
         this.ctx.moveTo(0, this.mapY(y));
         this.ctx.lineTo(this.canvasWidth, this.mapY(y));
         this.ctx.stroke();
-        this.ctx.fillText(y.toFixed(2), 0, this.mapY(y)); // hardcode decmial places for now
+        if (i) {
+          // don't label first grid line
+          this.ctx.fillText(y.toFixed(2), 0, this.mapY(y));
+        }
+        i++;
       }
+
+      i = 0;
       for (x = this.windowStart.x; x < this.windowEnd.x; x += intervalX) {
         this.ctx.moveTo(this.mapX(x), 0);
         this.ctx.lineTo(this.mapX(x), this.canvasHeight );
         this.ctx.stroke();
-        this.ctx.fillText(x, this.mapX(x), this.canvasHeight);
+        if (i) {
+          // don't label first grid line
+          this.ctx.fillText(x, this.mapX(x), this.canvasHeight);
+        }
+        i++;
       }
     }
 
@@ -84,11 +93,16 @@ $(document).ready(function(){
     }
 
     drawRatios (start, end, interval, LRR) {
+      var pixelRatio = window.devicePixelRatio;
+
+
       this.ctx.beginPath();
       this.ctx.strokeStyle = "#FF0000";
       this.ctx.lineWidth = 2;
 
       this.ctx.font = "15px sans-serif";
+
+
       this.ctx.fillStyle = "#FF0000";
 
 
@@ -113,6 +127,8 @@ $(document).ready(function(){
           textPositionX = this.mapX(this.windowEnd.x) - 40;
           textPositionY = this.mapY(brewControlClass.calcTDS(this.windowEnd.x, ratio, LRR)) + 30;
         }
+
+
         this.ctx.fillText(
           ratio.toFixed(1),
           textPositionX,
@@ -143,18 +159,29 @@ $(document).ready(function(){
       this.ctx.arc(this.mapX(extr), this.mapY(TDS), 10, 0, 2 * Math.PI);
       this.ctx.stroke();
     }
+    drawMeasured(extr, TDS) {
+      this.ctx.beginPath();
+      this.ctx.strokeStyle = "#0000FF";
+      this.ctx.lineWidth = 2;
+      this.ctx.arc(this.mapX(extr), this.mapY(TDS), 5, 0, 2 * Math.PI);
+      this.ctx.stroke();
+    }
 
     clearCanvas(){
-      // this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
     resizeCanvas(){
-      this.canvasHeight = Math.floor($(this.canvasId).height());
+      var pixelRatio = window.devicePixelRatio;
+
+      var canvasHeight = (parseInt($(this.canvasId).css("height"))*pixelRatio);
+      this.canvasHeight = ($(this.canvasId).height());
       $(this.canvasId).attr("height",this.canvasHeight);
 
-      this.canvasWidth = Math.floor($(this.canvasId).width());
+      var canvasWidth = (parseInt($(this.canvasId).css("width"))*pixelRatio);
+      this.canvasWidth = ($(this.canvasId).width());
       $(this.canvasId).attr("width",this.canvasWidth);
+
     }
   }
 
@@ -163,11 +190,12 @@ $(document).ready(function(){
 
     constructor(initializers) {
       this.state = {};
-      this.state.actualTDS = 0;
-      this.state.actualExtraction = 0;
+      this.state.actualTDS = initializers.TDS;
+      this.state.actualExtraction = initializers.extraction;
       this.state.brewWater = 0;
       this.state.bevWeight = 0;
       this.state.actualBevWeight = 0;
+      this.state.actualCoffeeDose = initializers.coffeeDose;
 
       this.state.extraction = initializers.extraction;
       this.state.TDS = initializers.TDS;
@@ -179,6 +207,8 @@ $(document).ready(function(){
     getState(){
       return this.state;
     }
+
+    
     calcExtraction(){
       // E = C/(1-C/100)*(W/D - LRR)
       // return this.state.TDS/(1-this.state.TDS/100) *
@@ -199,8 +229,8 @@ $(document).ready(function(){
     }
     calcActualExtraction(){
       // E = C/(1-C/100)*(BEVm/D)
-      return this.state.TDS/(1-this.state.TDS/100) *
-        (this.state.actualBevWeight/this.state.coffeeDose);
+      return this.state.actualTDS/(1-this.state.actualTDS/100) *
+        (this.state.actualBevWeight/this.state.actualCoffeeDose);
     }
     calcBevWeight() {
       return this.state.brewWater - this.state.LRR*this.state.coffeeDose;
@@ -237,21 +267,21 @@ $(document).ready(function(){
     // set during planning
     setTDS(TDS){
       if (this.state.TDS != TDS) {
-        this.state.TDS = TDS;
+        this.state.TDS = this.state.actualTDS = TDS;
         this.setBrewWater(this.calcBrewWater(), false);
       }
     }
     // set during planning
     setExtraction(extr) {
       if (this.state.extraction != extr) {
-        this.state.extraction = extr;
+        this.state.actualExtraction = this.state.extraction = extr;
         this.setBrewWater(this.calcBrewWater(), false);
       }
     }
     // set during planning or calculated
     setCoffeeDose(dose, directSet) {
       if (this.state.coffeeDose != dose) {
-        this.state.coffeeDose = dose;
+        this.state.coffeeDose = this.state.actualCoffeeDose = dose;
         if (directSet) {
           this.setBrewWater(this.calcBrewWater(), false);
         }
@@ -271,9 +301,17 @@ $(document).ready(function(){
 
     // set during review
     setactualBevWeight(bev) {
-      if (this.state.actualBevWeight != bev) {
+//      if (this.state.actualBevWeight != bev) {
         this.state.actualBevWeight = bev;
-        this.setLRR(this.calcLRR, false);
+        // this.setLRR(this.calcLRR, false);
+        this.state.actualExtraction = this.calcActualExtraction();
+  //    }
+    }
+    // set during review
+    setactualCoffeeDose(D) {
+      if (this.state.actualCoffeeDose != D) {
+        this.state.actualCoffeeDose = D;
+        // this.setLRR(this.calcLRR, false);
         this.state.actualExtraction = this.calcActualExtraction();
       }
     }
@@ -319,9 +357,11 @@ $(document).ready(function(){
       1,
       theBrewControl.state.LRR);
     theCanvas.drawTarget(theBrewControl.state.extraction, theBrewControl.state.TDS);
+    theCanvas.drawMeasured(theBrewControl.state.actualExtraction,
+        theBrewControl.state.actualTDS);
   }
 
-  function updateForm() {
+  function updatePlanForm() {
 //    $("#extraction input").val(theBrewControl.state.extraction.toFixed(1));
 //    $("#TDS input").val(theBrewControl.state.TDS.toFixed(2));
 
@@ -334,18 +374,39 @@ $(document).ready(function(){
     $("#LRR input").val(state.LRR.toFixed(1));
     $("#bev input").val(state.bevWeight.toFixed(1));
 
+
+    $("#actualCoffeeDose input").val(state.coffeeDose.toFixed(1));
+    $("#actualBrewWater input").val(state.brewWater.toFixed(1));
+    $("#actualLRR input").val(state.LRR.toFixed(1));
+    $("#actualExtraction input").val(state.actualExtraction.toFixed(1));
+    $("#actualBev input").val(state.actualBevWeight.toFixed(1));
   }
 
-
+  function updateActualForm() {
+    var state = theBrewControl.getState();
+    $("#actualTDS input").val(state.actualTDS.toFixed(2));
+    $("#actualBev input").val(state.actualBevWeight.toFixed(1));
+    $("#actualExtraction input").val(state.actualExtraction.toFixed(1));
+    // var TDS = parseFloat($("#actualTDS input").val());
+    // var Ratio = parseFloat($("#actualBrewWater input").val()) /
+    //   parseFloat($("#actualCoffeeDose input").val());
+    // var LRR = parseFloat($("#actualLRR input").val());
+    //
+    // var extr = brewControlClass.calcExtraction(TDS, Ratio, LRR);
+    // $("#actualLRR input").val(extr);
+  }
 
   function touchEvent(event) {
 
     var offset = $('#canvas').offset();
     var touchObject = event.changedTouches[0];
+    //var pixelRatio = window.devicePixelRatio;
+    var pixelRatio = 1;
+
 
     var point = {
-      "x" : touchObject.pageX - offset.left,
-      "y" : touchObject.pageY - offset.top,
+      "x" : (touchObject.pageX - offset.left) * pixelRatio,
+      "y" : (touchObject.pageY - offset.top)*pixelRatio,
     };
 
     var target = theCanvas.drawTargetPoint(point);
@@ -353,13 +414,16 @@ $(document).ready(function(){
     theBrewControl.setExtraction(target.extraction);
 
     repaintCanvas();
-    updateForm();
+    updatePlanForm();
 
   }
   function mouseEvent(event) {
+    // var pixelRatio = window.devicePixelRatio;
+    var pixelRatio = 1;
+
     point = {
-      "x" : event.offsetX,
-      "y" : event.offsetY,
+      "x" : event.offsetX * pixelRatio,
+      "y" : event.offsetY * pixelRatio,
     };
     // theCanvas.clearCanvas();
     // theCanvas.drawGrid(1, 0.05);
@@ -375,7 +439,7 @@ $(document).ready(function(){
     theBrewControl.setExtraction(target.extraction);
 
     repaintCanvas();
-    updateForm();
+    updatePlanForm();
 
   }
 
@@ -421,29 +485,65 @@ $(document).ready(function(){
   });
 
   $("#TDS input").focusout(function(){
-    theBrewControl.setTDS(parseFloat($("#TDS input").val()));
+    var TDS = parseFloat($("#TDS input").val());
+    theBrewControl.setTDS(TDS);
     repaintCanvas();
-    updateForm();
+    updatePlanForm();
+    updateActualForm();
   });
   $("#extraction input").focusout(function(){
     theBrewControl.setExtraction(parseFloat($("#extraction input").val()));
     repaintCanvas();
-    updateForm();
+    updatePlanForm();
+    updateActualForm();
   });
   $("#coffeeDose input").focusout(function(){
-    theBrewControl.setCoffeeDose(parseFloat($("#coffeeDose input").val()), true);
+    var D = parseFloat($("#coffeeDose input").val());
+    theBrewControl.setCoffeeDose(D, true);
     repaintCanvas();
-    updateForm();
+    updatePlanForm();
+    updateActualForm();
   });
   $("#brewWater input").focusout(function(){
     theBrewControl.setBrewWater(parseFloat($("#brewWater input").val()), true);
     repaintCanvas();
-    updateForm();
+    updatePlanForm();
+    updateActualForm();
   });
   $("#LRR input").focusout(function(){
     theBrewControl.setLRR(parseFloat($("#LRR input").val()), true);
     repaintCanvas();
-    updateForm();
+    updatePlanForm();
+    updateActualForm();
+  });
+
+  $("#actualTDS input").focusout(function(){
+    theBrewControl.setactualTDS(parseFloat($("#actualTDS input").val()));
+    repaintCanvas();
+    updateActualForm();
+  });
+  $("#actualCoffeeDose input").focusout(function(){
+    theBrewControl.setactualCoffeeDose(parseFloat($("#actualCoffeeDose input").val()));
+    repaintCanvas();
+    updateActualForm();
+  });
+  $("#actualBrewWater input").focusout(function(){
+    var bev = parseFloat($("#actualBrewWater input").val()) -
+      parseFloat($("#actualLRR input").val()) *
+      parseFloat($("#actualCoffeeDose input").val()
+    );
+    theBrewControl.setactualBevWeight(bev);
+    repaintCanvas();
+    updateActualForm();
+  });
+  $("#actualLRR input").focusout(function(){
+    var bev = parseFloat($("#actualBrewWater input").val()) -
+      parseFloat($("#actualLRR input").val()) *
+      parseFloat($("#actualCoffeeDose input").val()
+    );
+    theBrewControl.setactualBevWeight(bev);
+    repaintCanvas();
+    updateActualForm();
   });
 
   initBrewControl = {
@@ -462,8 +562,10 @@ $(document).ready(function(){
 
   theCanvas = new brewControlCanvasClass(initCanvas);
   repaintCanvas();
-  updateForm();
+  updatePlanForm();
   $("#bev input").attr("readonly", true);
   $("#bev input").css("background-color", "lightgrey");
+  $("#actualExtraction input").attr("readonly", true);
+  $("#actualExtraction input").css("background-color", "lightgrey");
 
 });
