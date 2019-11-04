@@ -480,7 +480,7 @@ $(document).ready(function(){
     $("#actualBev input").val(state.actualBevWeight.toFixed(1));
     $("#actualExtraction input").val(state.actualExtraction.toFixed(1));
     $("#actualLRR input").val(state.actualLRR.toFixed(1));
-    $("#actualBrewWater input").val(state.brewWater.toFixed(1));
+    $("#actualBrewWater input").val(state.actualBrewWater.toFixed(1));
     // var TDS = parseFloat($("#actualTDS input").val());
     // var Ratio = parseFloat($("#actualBrewWater input").val()) /
     //   parseFloat($("#actualCoffeeDose input").val());
@@ -579,36 +579,72 @@ $(document).ready(function(){
   });
 
   $("#TDS input").focusout(function(){
-    var TDS = parseFloat($("#TDS input").val());
-    theBrewControl.setTDS(TDS, "plan");
+    theBrewControl.setTDS(parseFloat($("#TDS input").val()), "plan");
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
+  $("#TDS input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#TDS input").blur();
+    }
+  });
+
   $("#extraction input").focusout(function(){
-    theBrewControl.setExtraction(parseFloat($("#extraction input").val()), "plan");
+    theBrewControl.setExtraction(parseFloat($("#extraction input").val()),
+      "plan"
+    );
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
+  $("#extraction input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#extraction input").blur();
+    }
+  });
+
   $("#coffeeDose input").focusout(function(){
-    var D = parseFloat($("#coffeeDose input").val(), "plan");
-    theBrewControl.setCoffeeDose(D, true);
+    theBrewControl.setCoffeeDose(parseFloat($("#coffeeDose input").val()),
+      "plan"
+    );
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
+  $("#coffeeDose input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#coffeeDose input").blur();
+    }
+  });
+
   $("#brewWater input").focusout(function(){
     theBrewControl.setBrewWater(parseFloat($("#brewWater input").val()), "plan");
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
+  $("#brewWater input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#brewWater input").blur();
+    }
+  });
+
   $("#LRR input").focusout(function(){
     theBrewControl.setLRR(parseFloat($("#LRR input").val()), "plan");
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
+  });
+  $("#LRR input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#LRR input").blur();
+    }
   });
 
   $("#actualTDS input").focusout(function(){
@@ -616,20 +652,51 @@ $(document).ready(function(){
     repaintCanvas();
     updateActualForm();
   });
+  $("#actualTDS input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#actualTDS input").blur();
+    }
+  });
+
   $("#actualCoffeeDose input").focusout(function(){
-    theBrewControl.setCoffeeDose(parseFloat($("#actualCoffeeDose input").val()), "calc");
+    theBrewControl.setCoffeeDose(parseFloat($("#actualCoffeeDose input").val()),
+      "calc"
+    );
     repaintCanvas();
     updateActualForm();
   });
+  $("#actualCoffeeDose input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#actualCoffeeDose input").blur();
+    }
+  });
+
   $("#actualBrewWater input").focusout(function(){
-    theBrewControl.setBrewWater(parseFloat($("#actualBrewWater input").val()), "calc");
+    theBrewControl.setBrewWater(parseFloat($("#actualBrewWater input").val()),
+      "calc"
+    );
     repaintCanvas();
     updateActualForm();
   });
+  $("#actualBrewWater input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#actualBrewWater input").blur();
+    }
+  });
+
   $("#actualBev input").focusout(function(){
     theBrewControl.setBevWeight(parseFloat($("#actualBev input").val()), "calc");
     repaintCanvas();
     updateActualForm();
+  });
+  $("#actualBev input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#actualBev input").blur();
+    }
   });
 
   initBrewControl = {
