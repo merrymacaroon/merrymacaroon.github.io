@@ -111,21 +111,21 @@ $(document).ready(function(){
         // this.ctx.strokeStyle = "#FF0000";
         // this.ctx.lineWidth = 2;
         this.ctx.moveTo(
-          this.mapX(brewControlClass.calcExtraction(this.windowStart.y, ratio, LRR)),
+          this.mapX(brewControlClass.calcExtractionFromRatio(this.windowStart.y, ratio, LRR)),
           this.mapY(this.windowStart.y));
         this.ctx.lineTo(
-          this.mapX(brewControlClass.calcExtraction(this.windowEnd.y, ratio, LRR)),
+          this.mapX(brewControlClass.calcExtractionFromRatio(this.windowEnd.y, ratio, LRR)),
           this.mapY(this.windowEnd.y));
         this.ctx.stroke();
 
-        var textPositionX = this.mapX(brewControlClass.calcExtraction(this.windowEnd.y, ratio, LRR));
+        var textPositionX = this.mapX(brewControlClass.calcExtractionFromRatio(this.windowEnd.y, ratio, LRR));
         var textPositionY;
         if (textPositionX < this.canvasWidth) {
           textPositionX -= 40;
           textPositionY = this.mapY(this.windowEnd.y) + 20;
         } else {
           textPositionX = this.mapX(this.windowEnd.x) - 40;
-          textPositionY = this.mapY(brewControlClass.calcTDS(this.windowEnd.x, ratio, LRR)) + 30;
+          textPositionY = this.mapY(brewControlClass.calcTDSFromRatio(this.windowEnd.x, ratio, LRR)) + 30;
         }
 
 
@@ -190,136 +190,227 @@ $(document).ready(function(){
 
     constructor(initializers) {
       this.state = {};
-      this.state.actualTDS = initializers.TDS;
-      this.state.actualExtraction = initializers.extraction;
+
       this.state.brewWater = 0;
       this.state.bevWeight = 0;
       this.state.actualBevWeight = 0;
       this.state.actualCoffeeDose = initializers.coffeeDose;
 
-      this.state.extraction = initializers.extraction;
-      this.state.TDS = initializers.TDS;
-      this.state.LRR = initializers.LRR;
-      this.state.coffeeDose = initializers.coffeeDose;
+      this.state.extraction = this.state.actualExtraction = initializers.extraction;
+      this.state.TDS = this.state.actualTDS = initializers.TDS;
+      this.state.LRR = this.state.actualLRR = initializers.LRR;
+      //this.state.coffeeDose = initializers.coffeeDose;
+      this.setCoffeeDose(initializers.coffeeDose, "plan");
 
-      this.setBrewWater(this.calcBrewWater(), false);
+      // this.setBrewWater(this.calcBrewWater("plan"), false);
     }
+
     getState(){
       return this.state;
-    }
-
-    
-    calcExtraction(){
-      // E = C/(1-C/100)*(W/D - LRR)
-      // return this.state.TDS/(1-this.state.TDS/100) *
-      //   (this.state.brewWater/this.state.coffeeDose - this.state.LRR);
-      return brewControlClass.calcExtraction(
-        this.state.TDS,
-        this.state.brewWater /
-        this.state.coffeeDose,
-        this.state.LRR);
-    }
-    static calcExtraction(TDS, Ratio, LRR){
-      return TDS/(1-TDS/100) *
-        (Ratio - LRR);
-    }
-    static calcTDS(extraction, Ratio, LRR){
-      return 100 * extraction/
-        ((Ratio - LRR)*100 + extraction);
-    }
-    calcActualExtraction(){
-      // E = C/(1-C/100)*(BEVm/D)
-      return this.state.actualTDS/(1-this.state.actualTDS/100) *
-        (this.state.actualBevWeight/this.state.actualCoffeeDose);
-    }
-    calcBevWeight() {
-      return this.state.brewWater - this.state.LRR*this.state.coffeeDose;
-    }
-    calcBrewWater() {
-      // W = (E*(1-C/100)/C + LRR)*D
-      return (this.state.extraction * (1 - this.state.TDS/100)/this.state.TDS +
-        this.state.LRR) * this.state.coffeeDose;
-    }
-    calcCoffeeDose(){
-      //D = W / (E*(1-C/100)/C + LRR)
-      return this.state.brewWater / (this.state.extraction *
-        (1 - this.state.TDS/100) / this.state.TDS + this.state.LRR);
-    }
-    calcLRR() {
-      return (this.state.brewWater - this.state.actualBevWeight) /
-        this.state.coffeeDose;
     }
 
     getRatio(){
       return this.state.brewWater/this.state.coffeeDose;
     }
 
+    static calcTDSFromRatio(extraction, Ratio, LRR) {
+      // TDS = 100 * E / [(W/D - LRR) * 100 + E]
+      return 100 * extraction/
+        ((Ratio - LRR)*100 + extraction);
+    }
+
+    static calcExtractionFromRatio(C, Ratio, LRR) {
+      // E =(C / (1 - C/100))*(W/D - LRR)
+      return (C / (1 - C/100)) * (Ratio - LRR);
+    }
+
+    static calcExtraction(TDS, Bev, D) {
+      // E = C * Bev / D;
+      return TDS * Bev / D;
+    }
+
+    calcExtraction(mode) {
+      if (mode == "plan") {
+        alert("Error: calcExtraction called from Plan mode");
+      } else {
+        return brewControlClass.calcExtraction(
+          this.state.actualTDS,
+          this.state.actualBevWeight,
+          this.state.actualCoffeeDose
+        );
+      }
+    }
+
+    static calcBevWeightFromBrewWater(W, LRR, D, C) {
+      return (W - LRR * D) * (1 + C / 100);
+    }
+
+    calcBevWeightFromBrewWater(mode) {
+      if (mode == "plan") {
+        return brewControlClass.calcBevWeightFromBrewWater(
+          this.state.brewWater,
+          this.state.LRR,
+          this.state.coffeeDose,
+          this.state.TDS
+        );
+      } else {
+        return brewControlClass.calcBevWeightFromBrewWater(
+          this.state.actualBrewWater,
+          this.state.actualLRR,
+          this.state.actualCoffeeDose,
+          this.state.actualTDS
+        );
+      }
+    }
+
+    // only called in Plan mode
+    calcBevWeightEDC(mode) {
+      // Bev = E * D / C
+      if (mode == "plan") {
+        return this.state.extraction * this.state.coffeeDose / this.state.TDS;
+      } else {
+        alert("Error: calcBevWeightEDC called in Calc mode");
+      }
+
+    }
+
+    // only called in Plan mode
+    calcBrewWater(mode) {
+      // W = (E*(1-C/100)/C + LRR)*D
+      // return (this.state.extraction * (1 - this.state.TDS/100)/this.state.TDS +
+      //   this.state.LRR) * this.state.coffeeDose;
+
+
+      // W = Bev / (1 + C/100) + LRR * D
+
+      if (mode == "plan") {
+        return this.state.bevWeight / (1 + this.state.TDS / 100) +
+          this.state.LRR * this.state.coffeeDose;
+      } else {
+        alert("Error: calcBrewWater called in Calc mode");
+      }
+
+    }
+
+    // only called in Plan mode
+    calcCoffeeDose(mode) {
+      //D = W / (E*(1-C/100)/C + LRR)
+      // return this.state.brewWater / (this.state.extraction *
+      //   (1 - this.state.TDS/100) / this.state.TDS + this.state.LRR);
+
+      // D = C * Bev / E
+      if (mode == "plan") {
+        return this.state.TDS * this.state.bevWeight / this.state.extraction;
+      } else {
+        alert("Error: calcCoffeeDose called in Calc mode");
+      }
+    }
+
+    // only called in Calc mode
+    calcLRR(mode) {
+      // LRR = [W - Bev/(1+mC/100)]/D
+      if (mode == "plan") {
+        alert("Error: calcLRR called in Plan mode");
+      } else {
+        return (this.state.actualBrewWater - this.state.actualBevWeight /
+          (1 + this.state.actualTDS/100)) / this.state.actualCoffeeDose;
+      }
+    }
+
     // set during planning
-    setLRR(LRR, directSet) {
-      if (this.state.LRR != LRR) {
-        this.state.LRR = LRR;
-        // this.state.bevWeight = this.calcBevWeight()
-        if (directSet) {
-          this.setBrewWater(this.calcBrewWater(), false);
+    setExtraction(extr, mode) {
+      if (mode == "plan") {
+        if (this.state.extraction != extr) {
+          this.state.extraction = this.state.actualExtraction = extr;
+          this.state.bevWeight = this.state.actualBevWeight =
+            this.calcBevWeightEDC(mode);
+          this.state.brewWater = this.state.actualBrewWater =
+            this.calcBrewWater(mode);
         }
+      } else {
+        alert("Error: setExtraction called in Calc mode");
       }
     }
-    // set during planning
-    setTDS(TDS){
-      if (this.state.TDS != TDS) {
-        this.state.TDS = this.state.actualTDS = TDS;
-        this.setBrewWater(this.calcBrewWater(), false);
-      }
-    }
-    // set during planning
-    setExtraction(extr) {
-      if (this.state.extraction != extr) {
-        this.state.actualExtraction = this.state.extraction = extr;
-        this.setBrewWater(this.calcBrewWater(), false);
-      }
-    }
-    // set during planning or calculated
-    setCoffeeDose(dose, directSet) {
-      if (this.state.coffeeDose != dose) {
-        this.state.coffeeDose = this.state.actualCoffeeDose = dose;
-        if (directSet) {
-          this.setBrewWater(this.calcBrewWater(), false);
+
+    // called in Plan and Calc mode
+    setTDS(TDS, mode){
+      if (mode == "plan") {
+        if (this.state.TDS != TDS) {
+          this.state.TDS = this.state.actualTDS = TDS;
+          this.state.bevWeight = this.state.actualBevWeight =
+            this.calcBevWeightEDC(mode);
+          this.state.brewWater = this.state.actualBrewWater =
+            this.calcBrewWater(mode);
         }
-      }
-    }
-    // set during planning or calculated
-    setBrewWater(bw, directSet) {
-      if (this.state.brewWater != bw) {
-        // only update if there are changes
-        this.state.brewWater = bw;
-        this.state.actualBevWeight = this.state.bevWeight = this.calcBevWeight();
-        if (directSet) {
-          this.setCoffeeDose(this.calcCoffeeDose(), false);
+      } else {
+        if (this.state.actualTDS != TDS) {
+          this.state.actualTDS = TDS;
+          this.state.actualExtraction = this.calcExtraction(mode);
+          this.state.actualLRR = this.calcLRR(mode);
         }
       }
     }
 
-    // set during review
-    setactualBevWeight(bev) {
-//      if (this.state.actualBevWeight != bev) {
-        this.state.actualBevWeight = bev;
-        // this.setLRR(this.calcLRR, false);
-        this.state.actualExtraction = this.calcActualExtraction();
-  //    }
-    }
-    // set during review
-    setactualCoffeeDose(D) {
-      if (this.state.actualCoffeeDose != D) {
-        this.state.actualCoffeeDose = D;
-        // this.setLRR(this.calcLRR, false);
-        this.state.actualExtraction = this.calcActualExtraction();
+    // set during planning or calculated
+    setCoffeeDose(dose, mode) {
+      if (mode == "plan") {
+        if (this.state.coffeeDose != dose) {
+          this.state.coffeeDose = this.state.actualCoffeeDose = dose;
+          this.state.bevWeight = this.state.actualBevWeight =
+            this.calcBevWeightEDC(mode);
+          this.state.brewWater = this.state.actualBrewWater =
+            this.calcBrewWater(mode);
+        }
+      } else {
+        if (this.state.actualCoffeeDose != dose) {
+          this.state.actualCoffeeDose = dose;
+          this.state.actualExtraction = this.calcExtraction(mode);
+          this.state.actualLRR = this.calcLRR(mode);
+        }
       }
     }
-    // set during review
-    setactualTDS(TDS){
-      if (this.state.actualTDS != TDS) {
-        this.state.actualTDS = TDS;
-        this.state.actualExtraction = this.calcActualExtraction();
+
+    // only called in plan mode
+    setLRR(LRR, mode) {
+      if (mode == "plan") {
+        if (this.state.LRR != LRR) {
+          this.state.LRR = this.state.actualLRR = LRR;
+          this.state.brewWater = this.calcBrewWater(mode);
+        }
+      } else {
+        alert("Error: setLRR called in Calc mode");
+      }
+    }
+
+    // set during plan and calc mode
+    setBrewWater(bw, mode) {
+      if (mode == "plan") {
+        if (this.state.brewWater != bw) {
+          this.state.brewWater = this.state.actualBrewWater = bw;
+          this.state.bevWeight = this.calcBevWeightFromBrewWater(mode);
+          this.state.coffeeDose = this.state.actualCoffeeDose =
+            this.calcCoffeeDose(mode);
+        }
+      } else {
+        if (this.state.actualBrewWater != bw) {
+          this.state.actualBrewWater = bw;
+          this.state.actualBevWeight =this.calcBevWeightFromBrewWater(mode);
+          this.state.actualExtraction = this.calcExtraction(mode);
+        }
+      }
+    }
+
+    // set during calc mode
+    setBevWeight(bev, mode) {
+      if (mode == "plan") {
+        alert("Error: setBevWeight called in plan mode");
+      } else {
+        if (this.state.actualBevWeight != bev) {
+          this.state.actualBevWeight = bev;
+          this.state.actualExtraction = this.calcExtraction(mode);
+          this.state.actualLRR = this.calcLRR(mode);
+        }
+
       }
     }
   }
@@ -380,6 +471,7 @@ $(document).ready(function(){
     $("#actualLRR input").val(state.LRR.toFixed(1));
     $("#actualExtraction input").val(state.actualExtraction.toFixed(1));
     $("#actualBev input").val(state.actualBevWeight.toFixed(1));
+    $("#actualTDS input").val(state.actualTDS.toFixed(2));
   }
 
   function updateActualForm() {
@@ -387,6 +479,8 @@ $(document).ready(function(){
     $("#actualTDS input").val(state.actualTDS.toFixed(2));
     $("#actualBev input").val(state.actualBevWeight.toFixed(1));
     $("#actualExtraction input").val(state.actualExtraction.toFixed(1));
+    $("#actualLRR input").val(state.actualLRR.toFixed(1));
+    $("#actualBrewWater input").val(state.brewWater.toFixed(1));
     // var TDS = parseFloat($("#actualTDS input").val());
     // var Ratio = parseFloat($("#actualBrewWater input").val()) /
     //   parseFloat($("#actualCoffeeDose input").val());
@@ -410,8 +504,8 @@ $(document).ready(function(){
     };
 
     var target = theCanvas.drawTargetPoint(point);
-    theBrewControl.setTDS(target.TDS);
-    theBrewControl.setExtraction(target.extraction);
+    theBrewControl.setTDS(target.TDS, "plan");
+    theBrewControl.setExtraction(target.extraction, "plan");
 
     repaintCanvas();
     updatePlanForm();
@@ -435,8 +529,8 @@ $(document).ready(function(){
     //   theBrewControl.state.LRR);
     //
     var target = theCanvas.drawTargetPoint(point);
-    theBrewControl.setTDS(target.TDS);
-    theBrewControl.setExtraction(target.extraction);
+    theBrewControl.setTDS(target.TDS, "plan");
+    theBrewControl.setExtraction(target.extraction, "plan");
 
     repaintCanvas();
     updatePlanForm();
@@ -486,62 +580,54 @@ $(document).ready(function(){
 
   $("#TDS input").focusout(function(){
     var TDS = parseFloat($("#TDS input").val());
-    theBrewControl.setTDS(TDS);
+    theBrewControl.setTDS(TDS, "plan");
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
   $("#extraction input").focusout(function(){
-    theBrewControl.setExtraction(parseFloat($("#extraction input").val()));
+    theBrewControl.setExtraction(parseFloat($("#extraction input").val()), "plan");
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
   $("#coffeeDose input").focusout(function(){
-    var D = parseFloat($("#coffeeDose input").val());
+    var D = parseFloat($("#coffeeDose input").val(), "plan");
     theBrewControl.setCoffeeDose(D, true);
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
   $("#brewWater input").focusout(function(){
-    theBrewControl.setBrewWater(parseFloat($("#brewWater input").val()), true);
+    theBrewControl.setBrewWater(parseFloat($("#brewWater input").val()), "plan");
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
   $("#LRR input").focusout(function(){
-    theBrewControl.setLRR(parseFloat($("#LRR input").val()), true);
+    theBrewControl.setLRR(parseFloat($("#LRR input").val()), "plan");
     repaintCanvas();
     updatePlanForm();
     updateActualForm();
   });
 
   $("#actualTDS input").focusout(function(){
-    theBrewControl.setactualTDS(parseFloat($("#actualTDS input").val()));
+    theBrewControl.setTDS(parseFloat($("#actualTDS input").val()), "calc");
     repaintCanvas();
     updateActualForm();
   });
   $("#actualCoffeeDose input").focusout(function(){
-    theBrewControl.setactualCoffeeDose(parseFloat($("#actualCoffeeDose input").val()));
+    theBrewControl.setCoffeeDose(parseFloat($("#actualCoffeeDose input").val()), "calc");
     repaintCanvas();
     updateActualForm();
   });
   $("#actualBrewWater input").focusout(function(){
-    var bev = parseFloat($("#actualBrewWater input").val()) -
-      parseFloat($("#actualLRR input").val()) *
-      parseFloat($("#actualCoffeeDose input").val()
-    );
-    theBrewControl.setactualBevWeight(bev);
+    theBrewControl.setBrewWater(parseFloat($("#actualBrewWater input").val()), "calc");
     repaintCanvas();
     updateActualForm();
   });
-  $("#actualLRR input").focusout(function(){
-    var bev = parseFloat($("#actualBrewWater input").val()) -
-      parseFloat($("#actualLRR input").val()) *
-      parseFloat($("#actualCoffeeDose input").val()
-    );
-    theBrewControl.setactualBevWeight(bev);
+  $("#actualBev input").focusout(function(){
+    theBrewControl.setBevWeight(parseFloat($("#actualBev input").val()), "calc");
     repaintCanvas();
     updateActualForm();
   });
@@ -567,5 +653,7 @@ $(document).ready(function(){
   $("#bev input").css("background-color", "lightgrey");
   $("#actualExtraction input").attr("readonly", true);
   $("#actualExtraction input").css("background-color", "lightgrey");
+  $("#actualLRR input").attr("readonly", true);
+  $("#actualLRR input").css("background-color", "lightgrey");
 
 });
