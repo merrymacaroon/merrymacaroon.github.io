@@ -519,6 +519,11 @@ $(document).ready(function(){
 
   $("#canvas").on("touchstart", function(event){
     if (theMode == "plan") {
+      // Google Analytics Event
+      gtag('event','click',{
+        'event_cataegory':'extraction',
+        'event_label':$(this).attr("id")
+      });
       // check for weird CSS width change when Chrome inspector is open
       if ( theCanvas.canvasWidth != $("#canvas").width()) {
           theCanvas.resizeCanvas();
@@ -538,6 +543,11 @@ $(document).ready(function(){
 
   $("#canvas").mousedown(function(event){
     if (theMode == "plan") {
+      // Google Analytics Event
+      gtag('event','click',{
+        'event_cataegory':'extraction',
+        'event_label':$(this).attr("id")
+      });
       event.preventDefault();
       // check for weird CSS width change when Chrome inspector is open
       if ( theCanvas.canvasWidth != $("#canvas").width()) {
@@ -689,12 +699,22 @@ $(document).ready(function(){
     $("#brewActual").addClass("hidden");
     $("#brewPlan").removeClass("hidden");
     theMode = "plan";
+    // Google Analytics Event
+    gtag('event','click',{
+      'event_cataegory':'extraction',
+      'event_label':$(this).attr("id")
+    });
   });
 
   $("#calcTab").click(function(){
     $("#brewPlan").addClass("hidden");
     $("#brewActual").removeClass("hidden");
     theMode = "calc";
+    // Google Analytics Event
+    gtag('event','click',{
+      'event_cataegory':'extraction',
+      'event_label':$(this).attr("id")
+    });
   });
 
   initBrewControl = {
@@ -705,7 +725,9 @@ $(document).ready(function(){
   };
   var theBrewControl = new brewControlClass(initBrewControl);
   var theMode = "plan";
-  $("#planTab").click();
+  $("#brewActual").addClass("hidden");
+  $("#brewPlan").removeClass("hidden");
+
   initCanvas = {
     "windowStart" : {"x" : 13, "y" : 1},
     "windowEnd" : {"x" : 26, "y" : 1.65},
