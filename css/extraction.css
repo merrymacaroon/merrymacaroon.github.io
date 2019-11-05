@@ -16,12 +16,57 @@
   top: 0;
   left: 0;
 }
- #brewPlan {
-   background-color: #C0FFC0;
- }
- #brewActual {
-   background-color: #C0F0FF;
- }
+
+#parameterContainer {
+  position: relative;
+  display: flex;
+  padding: 5px;
+}
+
+#parameterContainer .flexContainer{
+  margin: 0;
+
+}
+
+#parameterContainer .panel {
+  margin: 0;
+  padding: 5px 0px 0px 5px;
+}
+
+.tabRow {
+  width: 100%;
+  margin: 0px;
+}
+.tabContent {
+  margin: 0px;
+  width: 100%;
+  position: relative;
+}
+.tabContent .panel {
+  margin: 0px;
+  border-style: none;
+  box-shadow: 2px 2px grey;
+  width: 100%;
+}
+
+.tabs {
+  width: 40%;
+  padding: 5px 10px 5px 10px;
+}
+
+#brewActual {
+  position: absolute;
+  top:0;
+}
+
+#brewPlan, #planTab {
+ background-color: #C0FFC0;
+}
+
+#brewActual, #calcTab {
+ background-color: #C0F0FF;
+}
+
 .parameter {
   width: 45%;
   display: flex;

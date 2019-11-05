@@ -415,21 +415,8 @@ $(document).ready(function(){
     }
   }
 
-  // initBrewControl = {
-  //   "LRR" : 2.1,
-  //   "TDS" : 1.3,
-  //   "extraction" : 20,
-  //   "coffeeDose" : 15,
-  // };
-  // theBrewControl = new brewControlClass(initBrewControl);
-  //
-  // initCanvas = {
-  //   "windowStart" : {"x" : 13, "y" : 1},
-  //   "windowEnd" : {"x" : 26, "y" : 1.65},
-  //   "canvasId" : "#canvas",
-  // };
-  //
-  // theCanvas = new brewControlCanvasClass(initCanvas);
+
+
 
   function repaintCanvas(){
     theCanvas.clearCanvas();
@@ -453,9 +440,6 @@ $(document).ready(function(){
   }
 
   function updatePlanForm() {
-//    $("#extraction input").val(theBrewControl.state.extraction.toFixed(1));
-//    $("#TDS input").val(theBrewControl.state.TDS.toFixed(2));
-
     var state = theBrewControl.getState();
 
     $("#extraction input").val(state.extraction.toFixed(1));
@@ -481,14 +465,10 @@ $(document).ready(function(){
     $("#actualExtraction input").val(state.actualExtraction.toFixed(1));
     $("#actualLRR input").val(state.actualLRR.toFixed(1));
     $("#actualBrewWater input").val(state.actualBrewWater.toFixed(1));
-    // var TDS = parseFloat($("#actualTDS input").val());
-    // var Ratio = parseFloat($("#actualBrewWater input").val()) /
-    //   parseFloat($("#actualCoffeeDose input").val());
-    // var LRR = parseFloat($("#actualLRR input").val());
-    //
-    // var extr = brewControlClass.calcExtraction(TDS, Ratio, LRR);
-    // $("#actualLRR input").val(extr);
   }
+
+
+
 
   function touchEvent(event) {
 
@@ -538,34 +518,40 @@ $(document).ready(function(){
   }
 
   $("#canvas").on("touchstart", function(event){
-    // check for weird CSS width change when Chrome inspector is open
-    if ( theCanvas.canvasWidth != $("#canvas").width()) {
-        theCanvas.resizeCanvas();
-        repaintCanvas();
+    if (theMode == "plan") {
+      // check for weird CSS width change when Chrome inspector is open
+      if ( theCanvas.canvasWidth != $("#canvas").width()) {
+          theCanvas.resizeCanvas();
+          repaintCanvas();
+      }
+      event.preventDefault();
+      touchEvent(event);
     }
-    event.preventDefault();
-    touchEvent(event);
   });
 
   $("#canvas").on("touchmove", function(event){
-    event.preventDefault();
-    touchEvent(event);
+    if (theMode == "plan") {
+      event.preventDefault();
+      touchEvent(event);
+    }
   });
 
   $("#canvas").mousedown(function(event){
-    event.preventDefault();
-    // check for weird CSS width change when Chrome inspector is open
-    if ( theCanvas.canvasWidth != $("#canvas").width()) {
-        theCanvas.resizeCanvas();
-        repaintCanvas();
-    }
-
-    mouseEvent(event);
-
-    $("#canvas").on("mousemove", function(event){
+    if (theMode == "plan") {
       event.preventDefault();
+      // check for weird CSS width change when Chrome inspector is open
+      if ( theCanvas.canvasWidth != $("#canvas").width()) {
+          theCanvas.resizeCanvas();
+          repaintCanvas();
+      }
+
       mouseEvent(event);
-    });
+
+      $("#canvas").on("mousemove", function(event){
+        event.preventDefault();
+        mouseEvent(event);
+      });
+    }
   });
 
   $("#canvas").mouseup(function(){
@@ -699,6 +685,18 @@ $(document).ready(function(){
     }
   });
 
+  $("#planTab").click(function(){
+    $("#brewActual").addClass("hidden");
+    $("#brewPlan").removeClass("hidden");
+    theMode = "plan";
+  });
+
+  $("#calcTab").click(function(){
+    $("#brewPlan").addClass("hidden");
+    $("#brewActual").removeClass("hidden");
+    theMode = "calc";
+  });
+
   initBrewControl = {
     "LRR" : 2.1,
     "TDS" : 1.3,
@@ -706,7 +704,8 @@ $(document).ready(function(){
     "coffeeDose" : 15,
   };
   var theBrewControl = new brewControlClass(initBrewControl);
-
+  var theMode = "plan";
+  $("#planTab").click();
   initCanvas = {
     "windowStart" : {"x" : 13, "y" : 1},
     "windowEnd" : {"x" : 26, "y" : 1.65},
