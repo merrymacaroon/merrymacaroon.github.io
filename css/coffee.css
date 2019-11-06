@@ -20,6 +20,16 @@
   .gallery .pictureframe {
     width: 31%;
   }
+
+  #extraction .panel {
+    width: 45%;
+  }
+  #extraction .pictureframe {
+    width: 45%;
+    order: 1;
+  }
+
+
 }
 
 /* PC layout */
