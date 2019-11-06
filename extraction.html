@@ -33,12 +33,13 @@
       </ul>
     </header>
 
-    <article>
+    <article class="flexContainer">
       <section id="chart" class="panel">
         <h1>Brew Control Chart</h1>
         <div class="canvasContainer">
           <canvas id="canvas"></canvas>
         </div>
+        merrymacaroon.com
       </section>
       <section class="flexContainer panel" id="parameterContainer">
         <div class="tabRow flexContainer">
@@ -98,6 +99,45 @@
             </section>
           </section>
         </section>
+      </section>
+      <section class="panel" id="background">
+        <h1>Background</h1>
+        <h2>Plan mode</h2>
+        <p>
+          When planning a brew recipe, we usually think about the strength of
+          the coffee and the flavors extracted from the coffee grounds. In the
+          Brew Control Chart, TDS (Total Dissolved Solids) is a measure of the
+          strength of coffee - the higher the TDS, the stronger the coffee.
+          The Extraction indicates how much of the coffee grounds have been
+          "drawn out" by the brew water - under-extracted coffee may taste more
+          sour while over-extracted coffee may taste more bitter.
+        </p>
+        <p>
+          Design your brew recipes by setting your desired TDS, extraction-level
+          and coffee dose, and let the app calculate the required amount of brew
+          water to use. This app uses the equations described by Jonathan Gagné
+          on his wonderful website <a href="https://coffeeadastra.com/"
+          target="_blank">coffeeadastra.com</a>
+        </p>
+        <p>
+          As a start, try choosing a brew point (indicated by the green circle)
+          inside the green box. You can tap on the Brew Control Chart to quickly
+          set the brew point. The green box on the chart shows a general opinion
+          of what is good tasting coffee. Choosing a point in the middle of the
+          box gives more margin for error when brewing.
+        </p>
+        <p>
+          The red line shows the brew ratio (brew water / coffee dose) so you
+          can easily describe your brew recipe.
+        </p>
+        <h2>Measure mode</h2>
+        <p>
+          If you have access to a refractometer (which measures TDS), you can
+          compare your actual brew (indicated by the blue circle) with your plan.
+          The weight of your beverage is estimated from the brew water. If you
+          can measure the actual beverage weight, the extraction calculation will
+          be more accurate.
+        </p>
       </section>
     </article>
 

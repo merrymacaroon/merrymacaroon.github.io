@@ -518,26 +518,30 @@ $(document).ready(function(){
   }
 
   $("#canvas").on("touchstart", function(event){
-    if (theMode == "plan") {
-      // Google Analytics Event
-      gtag('event','click',{
-        'event_cataegory':'extraction',
-        'event_label':$(this).attr("id")
-      });
-      // check for weird CSS width change when Chrome inspector is open
-      if ( theCanvas.canvasWidth != $("#canvas").width()) {
-          theCanvas.resizeCanvas();
-          repaintCanvas();
+    if (event.changedTouches.length == 1) {
+      if (theMode == "plan") {
+        // Google Analytics Event
+        gtag('event','click',{
+          'event_cataegory':'extraction',
+          'event_label':$(this).attr("id")
+        });
+        // check for weird CSS width change when Chrome inspector is open
+        if ( theCanvas.canvasWidth != $("#canvas").width()) {
+            theCanvas.resizeCanvas();
+            repaintCanvas();
+        }
+        event.preventDefault();
+        touchEvent(event);
       }
-      event.preventDefault();
-      touchEvent(event);
     }
   });
 
   $("#canvas").on("touchmove", function(event){
-    if (theMode == "plan") {
-      event.preventDefault();
-      touchEvent(event);
+    if (event.changedTouches.length == 1) {
+      if (theMode == "plan") {
+        event.preventDefault();
+        touchEvent(event);
+      }
     }
   });
 
