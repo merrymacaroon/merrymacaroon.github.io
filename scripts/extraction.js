@@ -242,7 +242,7 @@ $(document).ready(function(){
     }
 
     static calcBevWeightFromBrewWater(W, LRR, D, C) {
-      return (W - LRR * D) * (1 + C / 100);
+      return (W - LRR * D) / (1 - C / 100);
     }
 
     calcBevWeightFromBrewWater(mode) {
@@ -281,10 +281,10 @@ $(document).ready(function(){
       //   this.state.LRR) * this.state.coffeeDose;
 
 
-      // W = Bev / (1 + C/100) + LRR * D
+      // W = Bev * (1 - C/100) + LRR * D
 
       if (mode == "plan") {
-        return this.state.bevWeight / (1 + this.state.TDS / 100) +
+        return this.state.bevWeight * (1 - this.state.TDS / 100) +
           this.state.LRR * this.state.coffeeDose;
       } else {
         alert("Error: calcBrewWater called in Calc mode");
@@ -308,12 +308,12 @@ $(document).ready(function(){
 
     // only called in Calc mode
     calcLRR(mode) {
-      // LRR = [W - Bev/(1+mC/100)]/D
+      // LRR = [W - Bev*(1-mC/100)]/D
       if (mode == "plan") {
         alert("Error: calcLRR called in Plan mode");
       } else {
-        return (this.state.actualBrewWater - this.state.actualBevWeight /
-          (1 + this.state.actualTDS/100)) / this.state.actualCoffeeDose;
+        return (this.state.actualBrewWater - this.state.actualBevWeight *
+          (1 - this.state.actualTDS/100)) / this.state.actualCoffeeDose;
       }
     }
 
