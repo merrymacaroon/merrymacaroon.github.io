@@ -81,7 +81,7 @@ $(document).ready(function(){
 
     drawBox (lowerLeft, upperRight) {
       this.ctx.beginPath();
-      this.ctx.strokeStyle = "#00FF00";
+      this.ctx.strokeStyle = "#00C000";
       this.ctx.lineWidth = 5;
       this.ctx.rect(
         this.mapX(lowerLeft.x), // top left x
@@ -154,7 +154,7 @@ $(document).ready(function(){
 
     drawTarget(extr, TDS) {
       this.ctx.beginPath();
-      this.ctx.strokeStyle = "#00FF00";
+      this.ctx.strokeStyle = "#00C000";
       this.ctx.lineWidth = 4;
       this.ctx.arc(this.mapX(extr), this.mapY(TDS), 10, 0, 2 * Math.PI);
       this.ctx.stroke();
@@ -198,6 +198,7 @@ $(document).ready(function(){
 
       this.state.extraction = this.state.actualExtraction = initializers.extraction;
       this.state.TDS = this.state.actualTDS = initializers.TDS;
+      this.state.slurryTDS = this.state.actualSlurryTDS = initializers.slurryTDS;
       this.state.LRR = this.state.actualLRR = initializers.LRR;
       //this.state.coffeeDose = initializers.coffeeDose;
       this.setCoffeeDose(initializers.coffeeDose, "plan");
@@ -229,14 +230,26 @@ $(document).ready(function(){
       return TDS * Bev / D;
     }
 
+    static calcAccurateExtraction(mC, sC, W, Bev, D) {
+      // E = [(mC - sC)*Bev + sC*W]/[(1-sC/100)*D]
+      return ((mC - sC)*Bev + sC*W)/((1-sC/100)*D);
+    }
+
     calcExtraction(mode) {
       if (mode == "plan") {
         alert("Error: calcExtraction called from Plan mode");
       } else {
-        return brewControlClass.calcExtraction(
-          this.state.actualTDS,
-          this.state.actualBevWeight,
-          this.state.actualCoffeeDose
+        // return brewControlClass.calcExtraction(
+        //   this.state.actualTDS,
+        //   this.state.actualBevWeight,
+        //   this.state.actualCoffeeDose
+        // );
+        return brewControlClass.calcAccurateExtraction(
+            this.state.actualTDS,
+            this.state.actualSlurryTDS,
+            this.state.actualBrewWater,
+            this.state.actualBevWeight,
+            this.state.actualCoffeeDose
         );
       }
     }
@@ -345,6 +358,19 @@ $(document).ready(function(){
       } else {
         if (this.state.actualTDS != TDS) {
           this.state.actualTDS = TDS;
+          this.state.actualExtraction = this.calcExtraction(mode);
+          this.state.actualLRR = this.calcLRR(mode);
+        }
+      }
+    }
+
+    // called in Calc mode only
+    setSlurryTDS(TDS, mode){
+      if (mode == "plan") {
+        alert("Error: setSlurryTDS called in Plan mode");
+      } else {
+        if (this.state.actualSlurryTDS != TDS) {
+          this.state.actualSlurryTDS = TDS;
           this.state.actualExtraction = this.calcExtraction(mode);
           this.state.actualLRR = this.calcLRR(mode);
         }
@@ -659,6 +685,18 @@ $(document).ready(function(){
     }
   });
 
+  $("#actualSlurryTDS input").focusout(function(){
+    theBrewControl.setSlurryTDS(parseFloat($("#actualSlurryTDS input").val()), "calc");
+    repaintCanvas();
+    updateActualForm();
+  });
+  $("#actualSlurryTDS input").keypress(function(event){
+    var key = (event.keyCode ? event.keyCode : event.which);
+    if (key == 13) {
+      $("#actualSlurryTDS input").blur();
+    }
+  });
+
   $("#actualCoffeeDose input").focusout(function(){
     theBrewControl.setCoffeeDose(parseFloat($("#actualCoffeeDose input").val()),
       "calc"
@@ -724,6 +762,7 @@ $(document).ready(function(){
   initBrewControl = {
     "LRR" : 2.1,
     "TDS" : 1.3,
+    "slurryTDS" : 0,
     "extraction" : 20,
     "coffeeDose" : 15,
   };

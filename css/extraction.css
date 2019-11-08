@@ -58,7 +58,7 @@ article {
   padding: 5px 10px 5px 10px;
 }
 
-#brewActual {
+#brewPlan {
   position: absolute;
   top:0;
 }
@@ -115,21 +115,25 @@ article {
 #actualTDS {
   order: 0;
 }
-#actualBrewWater {
+#actualExtraction {
   order: 1;
 }
-#actualExtraction {
+#actualSlurryTDS {
   order: 2;
 }
-#actualLRR {
+#actualCoffeeDose {
   order: 3;
 }
-#actualCoffeeDose {
+#actualBev {
   order: 4;
 }
-#actualBev {
+#actualBrewWater {
   order: 5;
 }
+#actualLRR {
+  order: 6;
+}
+
 
 /* Tablet layout */
 @media (min-width: 600px) {

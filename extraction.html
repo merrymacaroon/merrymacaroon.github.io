@@ -51,29 +51,6 @@
           </div>
         </div>
         <section class="tabContent">
-          <section id="brewPlan" class="panel">
-            <h1>Plan Your Brew (Try Clicking Chart)</h1>
-            <section class="flexContainer">
-              <div class="parameter" id="TDS">
-                <span>TDS (%)</span><input type="number" name="TDS" value="15" step="0.05">
-              </div>
-              <div class="parameter" id="extraction">
-                <span>Extr (%)</span><input type="number" name="extraction" value="20">
-              </div>
-              <div class="parameter" id="coffeeDose">
-                <span>Coffee Dose (g)</span><input type="number" name="coffeeDose" value="15">
-              </div>
-              <div class="parameter" id="brewWater">
-                <span>Brew Water (g)</span><input type="number" name="brewWater" value="255">
-              </div>
-              <div class="parameter" id="LRR">
-                <span>LRR</span><input type="number" name="LRR" value="2.1" step="0.1">
-              </div>
-              <div class="parameter" id="bev">
-                <span>BevWt (g)</span><input type="number" name="bev" readonly>
-              </div>
-            </section>
-          </section>
           <section id="brewActual" class="panel">
             <h1>Measure Your Brew (Update your TDS)</h1>
             <section class="flexContainer">
@@ -95,7 +72,32 @@
               <div class="parameter" id="actualBev">
                 <span>BevWt (g)</span><input type="number" name="bev">
               </div>
-
+              <div class="parameter" id="actualSlurryTDS">
+                <span>Slurry TDS (g)</span><input type="number" name="slurryTDS" value="0" step="0.05">
+              </div>
+            </section>
+          </section>
+          <section id="brewPlan" class="panel">
+            <h1>Plan Your Brew (Try Clicking Chart)</h1>
+            <section class="flexContainer">
+              <div class="parameter" id="TDS">
+                <span>TDS (%)</span><input type="number" name="TDS" value="15" step="0.05">
+              </div>
+              <div class="parameter" id="extraction">
+                <span>Extr (%)</span><input type="number" name="extraction" value="20">
+              </div>
+              <div class="parameter" id="coffeeDose">
+                <span>Coffee Dose (g)</span><input type="number" name="coffeeDose" value="15">
+              </div>
+              <div class="parameter" id="brewWater">
+                <span>Brew Water (g)</span><input type="number" name="brewWater" value="255">
+              </div>
+              <div class="parameter" id="LRR">
+                <span>LRR</span><input type="number" name="LRR" value="2.1" step="0.1">
+              </div>
+              <div class="parameter" id="bev">
+                <span>BevWt (g)</span><input type="number" name="bev" readonly>
+              </div>
             </section>
           </section>
         </section>
@@ -137,6 +139,16 @@
           The weight of your beverage is estimated from the brew water. If you
           can measure the actual beverage weight, the extraction calculation will
           be more accurate.
+        </p>
+        <p>
+          For percolation brew methods (e.g. V60), the TDS of the slurry left
+          after the brew is usually assumed to be 0. This is the default value
+          used in our calculations (to be more consistent when comparing
+          your extraction numbers with others).
+
+          For an even more accuate extraction calculation, you can catch the
+          last few drops of your brew in another container to take a separate
+          (non-zero) Slurry TDS measurement.
         </p>
       </section>
     </article>
