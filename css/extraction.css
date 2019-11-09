@@ -111,6 +111,12 @@ article {
 #bev {
   order: 5;
 }
+#saveButton {
+  order: 6;
+}
+#resetButton {
+  order: 7;
+}
 
 #actualTDS {
   order: 0;

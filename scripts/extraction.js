@@ -759,6 +759,28 @@ $(document).ready(function(){
     });
   });
 
+  $("#saveDefaults").click(function(){
+    if (typeof(Storage) !== "undefined") {
+      var state = theBrewControl.getState();
+      localStorage.LRR = state.LRR;
+      localStorage.TDS = state.TDS;
+      localStorage.extraction = state.extraction;
+      localStorage.coffeeDose = state.coffeeDose;
+    }
+  });
+  $("#resetDefaults").click(function(){
+    var result = confirm("Do you really want to clear your saved defaults?");
+    if (result) {
+      if (typeof(Storage) !== "undefined") {
+        localStorage.removeItem("LRR");
+        localStorage.removeItem("TDS");
+        localStorage.removeItem("extraction");
+        localStorage.removeItem("coffeeDose");
+        location.reload();
+      }
+    }
+  });
+
   initBrewControl = {
     "LRR" : 2.1,
     "TDS" : 1.3,
@@ -766,6 +788,22 @@ $(document).ready(function(){
     "extraction" : 20,
     "coffeeDose" : 15,
   };
+
+  if (typeof(Storage) !== "undefined") {
+    if (localStorage.LRR) {
+      initBrewControl.LRR = parseFloat(localStorage.LRR);
+    }
+    if (localStorage.TDS) {
+      initBrewControl.TDS = parseFloat(localStorage.TDS);
+    }
+    if (localStorage.extraction) {
+      initBrewControl.extraction = parseFloat(localStorage.extraction);
+    }
+    if (localStorage.coffeeDose) {
+      initBrewControl.coffeeDose = parseFloat(localStorage.coffeeDose);
+    }
+  }
+
   var theBrewControl = new brewControlClass(initBrewControl);
   var theMode = "plan";
   $("#brewActual").addClass("hidden");
