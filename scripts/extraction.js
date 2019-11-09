@@ -496,6 +496,7 @@ $(document).ready(function(){
 
 
 
+
   function touchEvent(event) {
 
     var offset = $('#canvas').offset();
@@ -543,8 +544,25 @@ $(document).ready(function(){
 
   }
 
+  // keep track of touch events, one event for each finger
+  var touchEventCache = new Array();
+
+  $("#canvas").on("touchend", function(event) {
+    // Remove event from cache
+    for (var i = 0; i < touchEventCache.length; i++) {
+      if (touchEventCache[i].pointerId == event.pointerId) {
+        touchEventCache.splice(i, 1);
+        break;
+      }
+    }
+  });
+
   $("#canvas").on("touchstart", function(event){
-    if (event.changedTouches.length == 1) {
+    // add event to cache
+    touchEventCache.push(event);
+
+    // only handle single-touch
+    if (touchEventCache.length == 1) {
       if (theMode == "plan") {
         // Google Analytics Event
         gtag('event','click',{
@@ -563,7 +581,7 @@ $(document).ready(function(){
   });
 
   $("#canvas").on("touchmove", function(event){
-    if (event.changedTouches.length == 1) {
+    if (touchEventCache.length == 1) {
       if (theMode == "plan") {
         event.preventDefault();
         touchEvent(event);
