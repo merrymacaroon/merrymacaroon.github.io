@@ -566,7 +566,7 @@ $(document).ready(function(){
       if (theMode == "plan") {
         // Google Analytics Event
         gtag('event','click',{
-          'event_cataegory':'extraction',
+          'event_category':'extraction',
           'event_label':$(this).attr("id")
         });
         // check for weird CSS width change when Chrome inspector is open
@@ -593,7 +593,7 @@ $(document).ready(function(){
     if (theMode == "plan") {
       // Google Analytics Event
       gtag('event','click',{
-        'event_cataegory':'extraction',
+        'event_category':'extraction',
         'event_label':$(this).attr("id")
       });
       event.preventDefault();
@@ -761,7 +761,7 @@ $(document).ready(function(){
     theMode = "plan";
     // Google Analytics Event
     gtag('event','click',{
-      'event_cataegory':'extraction',
+      'event_category':'extraction',
       'event_label':$(this).attr("id")
     });
   });
@@ -772,7 +772,7 @@ $(document).ready(function(){
     theMode = "calc";
     // Google Analytics Event
     gtag('event','click',{
-      'event_cataegory':'extraction',
+      'event_category':'extraction',
       'event_label':$(this).attr("id")
     });
   });

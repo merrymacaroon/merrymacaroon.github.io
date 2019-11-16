@@ -37,7 +37,7 @@ $(document).ready(function() {
 
       // Google Analytics Event
       gtag('event','click',{
-        'event_cataegory':'gallery_view',
+        'event_category':'gallery_view',
         'event_label':$(this).find("img").attr("alt")
       });
 

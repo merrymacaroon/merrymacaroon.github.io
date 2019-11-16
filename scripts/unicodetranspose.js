@@ -148,14 +148,14 @@ $(document).ready(function() {
     // Google Analytics Events
   $("#inputText").click(function(){
     gtag('event','click',{
-      'event_cataegory':'translate_input',
+      'event_category':'translate_input',
       'event_label':$(this).attr("id")
     });
   });
 
   $(".outputText").on("copy",function(){
     gtag('event','click',{
-      'event_cataegory':'translate_output',
+      'event_category':'translate_output',
       'event_label':$(this).attr("id")
     });
   });
