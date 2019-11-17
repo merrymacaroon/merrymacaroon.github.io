@@ -420,7 +420,8 @@ $(document).ready(function(){
       } else {
         if (this.state.actualBrewWater != bw) {
           this.state.actualBrewWater = bw;
-          this.state.actualBevWeight =this.calcBevWeightFromBrewWater(mode);
+          // this.state.actualBevWeight =this.calcBevWeightFromBrewWater(mode);
+          this.state.actualLRR = this.calcLRR(mode);
           this.state.actualExtraction = this.calcExtraction(mode);
         }
       }
