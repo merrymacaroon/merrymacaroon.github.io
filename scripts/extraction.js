@@ -412,10 +412,11 @@ $(document).ready(function(){
     setBrewWater(bw, mode) {
       if (mode == "plan") {
         if (this.state.brewWater != bw) {
+          var ratio = this.getRatio();
           this.state.brewWater = this.state.actualBrewWater = bw;
+          this.state.coffeeDose = this.state.actualCoffeeDose = bw / ratio;
           this.state.bevWeight = this.calcBevWeightFromBrewWater(mode);
-          this.state.coffeeDose = this.state.actualCoffeeDose =
-            this.calcCoffeeDose(mode);
+
         }
       } else {
         if (this.state.actualBrewWater != bw) {
