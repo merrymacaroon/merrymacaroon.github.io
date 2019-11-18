@@ -72,17 +72,19 @@ article {
 }
 
 .parameter {
-  width: 45%;
+  width: 33%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
   margin-bottom: 10px;
   font-size: 0.7em;
 }
 
 .parameter span {
-  width: 50%;
-  text-align: right;
+  width: 100%;
+  text-align: center;
   padding-right: 2px;
 }
 .parameter input {
@@ -97,10 +99,10 @@ article {
   order: 0;
 }
 #brewWater {
-  order: 1;
+  order: 2;
 }
 #extraction {
-  order: 2;
+  order: 1;
 }
 #LRR {
   order: 3;
@@ -121,25 +123,24 @@ article {
 #actualTDS {
   order: 0;
 }
-#actualExtraction {
+#actualBev {
   order: 1;
 }
-#actualSlurryTDS {
+#actualCoffeeDose {
   order: 2;
 }
-#actualCoffeeDose {
+#actualSlurryTDS {
   order: 3;
 }
-#actualBev {
+#actualBrewWater {
   order: 4;
 }
-#actualBrewWater {
+#actualLRR {
   order: 5;
 }
-#actualLRR {
+#actualExtraction {
   order: 6;
 }
-
 
 /* Tablet layout */
 @media (min-width: 600px) {

@@ -779,12 +779,15 @@ $(document).ready(function(){
   });
 
   $("#saveDefaults").click(function(){
-    if (typeof(Storage) !== "undefined") {
-      var state = theBrewControl.getState();
-      localStorage.LRR = state.LRR;
-      localStorage.TDS = state.TDS;
-      localStorage.extraction = state.extraction;
-      localStorage.coffeeDose = state.coffeeDose;
+    var result = confirm("Do you really want to update defaults?");
+    if (result) {
+      if (typeof(Storage) !== "undefined") {
+        var state = theBrewControl.getState();
+        localStorage.LRR = state.LRR;
+        localStorage.TDS = state.TDS;
+        localStorage.extraction = state.extraction;
+        localStorage.coffeeDose = state.coffeeDose;
+      }
     }
   });
   $("#resetDefaults").click(function(){
