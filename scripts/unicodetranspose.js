@@ -144,6 +144,9 @@ $(document).ready(function() {
 
   // Transpose event handlers
   $("#inputText").keyup(transpose);
+  $("#inputText").on("paste",function(){
+    setTimeout(transpose,0);
+  });
 
     // Google Analytics Events
   $("#inputText").click(function(){
